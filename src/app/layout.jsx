@@ -1,7 +1,7 @@
 "use client";
 import "./globals.css";
-import Header from "./layout/header";
-import Footer from "./layout/footer";
+import Header from "@/app/layout/Header";
+import Footer from "@/app/layout/Footer";
 
 export default function RootLayout({ children }) {
   return (
