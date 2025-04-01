@@ -29,6 +29,7 @@ const PlayfairCipherUI = () => {
   };
 
   function createPlayfairSquare(key) {
+<<<<<<< HEAD
     // Standardize the key (remove spaces, convert to uppercase)
     const standardKey = key.toUpperCase().replace(/\s/g, "");
 
@@ -43,6 +44,15 @@ const PlayfairCipherUI = () => {
     const usedChars = new Set();
 
     // First, add characters from the key
+=======
+    const standardKey = key.toUpperCase().replace(/\s/g, "");
+    const processedKey = standardKey.replace(/J/g, "I");
+    const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+
+    const matrix = [];
+    const usedChars = new Set();
+
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     for (const char of processedKey) {
       if (!usedChars.has(char) && alphabet.includes(char)) {
         usedChars.add(char);
@@ -50,14 +60,20 @@ const PlayfairCipherUI = () => {
       }
     }
 
+<<<<<<< HEAD
     // Then, add the remaining alphabet characters
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     for (const char of alphabet) {
       if (!usedChars.has(char)) {
         matrix.push(char);
       }
     }
 
+<<<<<<< HEAD
     // Convert to 5x5 grid format
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const grid = [];
     for (let i = 0; i < 5; i++) {
       grid.push(matrix.slice(i * 5, (i + 1) * 5));
@@ -67,7 +83,10 @@ const PlayfairCipherUI = () => {
   }
 
   function findPosition(grid, char) {
+<<<<<<< HEAD
     // Replace J with I for lookup
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const lookupChar = char === "J" ? "I" : char;
 
     for (let row = 0; row < 5; row++) {
@@ -81,6 +100,7 @@ const PlayfairCipherUI = () => {
   }
 
   function prepareText(text) {
+<<<<<<< HEAD
     // Remove spaces and convert to uppercase
     let processed = text.toUpperCase().replace(/\s/g, "");
 
@@ -91,11 +111,18 @@ const PlayfairCipherUI = () => {
     processed = processed.replace(/[^A-Z]/g, "");
 
     // Split into digraphs
+=======
+    let processed = text.toUpperCase().replace(/\s/g, "");
+    processed = processed.replace(/J/g, "I");
+    processed = processed.replace(/[^A-Z]/g, "");
+
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const digraphs = [];
     let i = 0;
 
     while (i < processed.length) {
       if (i === processed.length - 1) {
+<<<<<<< HEAD
         // If we have a single character left, add an 'X'
         digraphs.push([processed[i], "X"]);
         i++;
@@ -105,6 +132,14 @@ const PlayfairCipherUI = () => {
         i++;
       } else {
         // Regular digraph
+=======
+        digraphs.push([processed[i], "X"]);
+        i++;
+      } else if (processed[i] === processed[i + 1]) {
+        digraphs.push([processed[i], "X"]);
+        i++;
+      } else {
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
         digraphs.push([processed[i], processed[i + 1]]);
         i += 2;
       }
@@ -116,7 +151,10 @@ const PlayfairCipherUI = () => {
   function encryptPlayfair(plaintext, key) {
     const steps = [];
 
+<<<<<<< HEAD
     // Step 1: Create the Playfair square
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const grid = createPlayfairSquare(key);
     steps.push({
       description: "Create Playfair Square",
@@ -127,7 +165,10 @@ const PlayfairCipherUI = () => {
       },
     });
 
+<<<<<<< HEAD
     // Step 2: Prepare the plaintext
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const originalText = plaintext;
     const digraphs = prepareText(plaintext);
 
@@ -148,7 +189,10 @@ const PlayfairCipherUI = () => {
       },
     });
 
+<<<<<<< HEAD
     // Step 3: Encrypt each digraph
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const encryptedDigraphs = [];
     const encryptionDetails = [];
 
@@ -159,19 +203,28 @@ const PlayfairCipherUI = () => {
       let newChar1, newChar2;
       let rule;
 
+<<<<<<< HEAD
       // Same row
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
       if (pos1.row === pos2.row) {
         newChar1 = grid[pos1.row][(pos1.col + 1) % 5];
         newChar2 = grid[pos2.row][(pos2.col + 1) % 5];
         rule = "Same row: shift right (wrap if needed)";
       }
+<<<<<<< HEAD
       // Same column
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
       else if (pos1.col === pos2.col) {
         newChar1 = grid[(pos1.row + 1) % 5][pos1.col];
         newChar2 = grid[(pos2.row + 1) % 5][pos2.col];
         rule = "Same column: shift down (wrap if needed)";
       }
+<<<<<<< HEAD
       // Rectangle
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
       else {
         newChar1 = grid[pos1.row][pos2.col];
         newChar2 = grid[pos2.row][pos1.col];
@@ -195,7 +248,10 @@ const PlayfairCipherUI = () => {
       },
     });
 
+<<<<<<< HEAD
     // Step 4: Final result
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const ciphertext = encryptedDigraphs.flat().join("");
 
     steps.push({
@@ -209,7 +265,10 @@ const PlayfairCipherUI = () => {
   function decryptPlayfair(ciphertext, key) {
     const steps = [];
 
+<<<<<<< HEAD
     // Step 1: Create the Playfair square
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const grid = createPlayfairSquare(key);
 
     steps.push({
@@ -221,21 +280,31 @@ const PlayfairCipherUI = () => {
       },
     });
 
+<<<<<<< HEAD
     // Step 2: Prepare the ciphertext
     const originalText = ciphertext;
     // For decryption, we just split into pairs (no need to handle repeated letters)
+=======
+    const originalText = ciphertext;
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     let processed = ciphertext
       .toUpperCase()
       .replace(/\s/g, "")
       .replace(/J/g, "I");
     processed = processed.replace(/[^A-Z]/g, "");
 
+<<<<<<< HEAD
     // Ensure even length
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     if (processed.length % 2 !== 0) {
       processed += "X";
     }
 
+<<<<<<< HEAD
     // Split into digraphs
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const digraphs = [];
     for (let i = 0; i < processed.length; i += 2) {
       digraphs.push([processed[i], processed[i + 1]]);
@@ -256,7 +325,10 @@ const PlayfairCipherUI = () => {
       },
     });
 
+<<<<<<< HEAD
     // Step 3: Decrypt each digraph
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const decryptedDigraphs = [];
     const decryptionDetails = [];
 
@@ -267,6 +339,7 @@ const PlayfairCipherUI = () => {
       let newChar1, newChar2;
       let rule;
 
+<<<<<<< HEAD
       // Same row
       if (pos1.row === pos2.row) {
         newChar1 = grid[pos1.row][(pos1.col + 4) % 5]; // -1 + 5 = +4 (modular arithmetic)
@@ -274,12 +347,22 @@ const PlayfairCipherUI = () => {
         rule = "Same row: shift left (wrap if needed)";
       }
       // Same column
+=======
+      if (pos1.row === pos2.row) {
+        newChar1 = grid[pos1.row][(pos1.col + 4) % 5]; 
+        newChar2 = grid[pos2.row][(pos2.col + 4) % 5];
+        rule = "Same row: shift left (wrap if needed)";
+      }
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
       else if (pos1.col === pos2.col) {
         newChar1 = grid[(pos1.row + 4) % 5][pos1.col];
         newChar2 = grid[(pos2.row + 4) % 5][pos2.col];
         rule = "Same column: shift up (wrap if needed)";
       }
+<<<<<<< HEAD
       // Rectangle
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
       else {
         newChar1 = grid[pos1.row][pos2.col];
         newChar2 = grid[pos2.row][pos1.col];
@@ -303,7 +386,10 @@ const PlayfairCipherUI = () => {
       },
     });
 
+<<<<<<< HEAD
     // Step 4: Final result (note: we don't remove Xs that were added during encryption)
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
     const plaintext = decryptedDigraphs.flat().join("");
 
     steps.push({
@@ -314,7 +400,10 @@ const PlayfairCipherUI = () => {
     return { result: plaintext, steps };
   }
 
+<<<<<<< HEAD
   // Helper to display the Playfair grid
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
   const PlayfairGrid = ({ grid, highlights = null }) => {
     return (
       <div className="border border-gray-300 inline-block">
@@ -327,7 +416,10 @@ const PlayfairCipherUI = () => {
                   let highlightClass = "";
 
                   if (highlights) {
+<<<<<<< HEAD
                     // Check if this cell should be highlighted
+=======
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
                     for (let i = 0; i < highlights.length; i++) {
                       const pos = highlights[i];
                       if (pos.row === rowIndex && pos.col === colIndex) {
@@ -508,6 +600,7 @@ const PlayfairCipherUI = () => {
 
                   {(step.description === "Encrypt Digraphs" ||
                     step.description === "Decrypt Digraphs") && (
+<<<<<<< HEAD
                     <div>
                       {step.data.details.map((detail, i) => {
                         const firstChar = detail.original[0];
@@ -578,16 +671,96 @@ const PlayfairCipherUI = () => {
                                     <div className="text-xl mt-2">↓</div>
                                     <div className="w-16 h-16 mx-auto flex items-center justify-center bg-green-300 rounded-full font-mono text-2xl">
                                       {resultChars[1]}
+=======
+                      <div>
+                        {step.data.details.map((detail, i) => {
+                          const firstChar = detail.original[0];
+                          const secondChar = detail.original[1];
+                          const resultChars =
+                            step.description === "Encrypt Digraphs"
+                              ? detail.encrypted
+                              : detail.decrypted;
+
+                          return (
+                            <div
+                              key={i}
+                              className="mb-6 p-4 border border-gray-200 rounded"
+                            >
+                              <div className="font-medium mb-2">
+                                Digraph {i + 1}: {firstChar}
+                                {secondChar} → {resultChars[0]}
+                                {resultChars[1]}
+                              </div>
+
+                              <div className="mb-2 text-sm font-medium">
+                                Rule: {detail.rule}
+                              </div>
+
+                              <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
+                                <div className="text-center">
+                                  <div className="mb-1 text-sm font-medium">
+                                    Positions in the grid:
+                                  </div>
+                                  <PlayfairGrid
+                                    grid={result.steps[0].data.grid}
+                                    highlights={detail.originalPositions}
+                                  />
+                                  <div className="mt-1 text-xs">
+                                    <span className="px-2 py-1 mr-2 bg-blue-200">
+                                      {firstChar} at (
+                                      {detail.originalPositions[0].row},
+                                      {detail.originalPositions[0].col})
+                                    </span>
+                                    <span className="px-2 py-1 bg-green-200">
+                                      {secondChar} at (
+                                      {detail.originalPositions[1].row},
+                                      {detail.originalPositions[1].col})
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="text-4xl">→</div>
+
+                                <div className="text-center">
+                                  <div className="text-sm font-medium mb-1">
+                                    Character transformation:
+                                  </div>
+                                  <div className="grid grid-cols-2 gap-4 text-center">
+                                    <div>
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-blue-100 rounded-full font-mono text-2xl">
+                                        {firstChar}
+                                      </div>
+                                      <div className="text-xl mt-2">↓</div>
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-blue-300 rounded-full font-mono text-2xl">
+                                        {resultChars[0]}
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-green-100 rounded-full font-mono text-2xl">
+                                        {secondChar}
+                                      </div>
+                                      <div className="text-xl mt-2">↓</div>
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-green-300 rounded-full font-mono text-2xl">
+                                        {resultChars[1]}
+                                      </div>
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
+<<<<<<< HEAD
                           </div>
                         );
                       })}
                     </div>
                   )}
+=======
+                          );
+                        })}
+                      </div>
+                    )}
+>>>>>>> f6a3ce5 (replace the ciphers data json content from page.jsx to public folder)
 
                   {step.description === "Final Result" && (
                     <div className="p-2 bg-gray-50 rounded font-mono text-lg tracking-wider">
