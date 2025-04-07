@@ -1,9 +1,10 @@
 "use client";
 
 import { Analytics } from "@vercel/analytics/react";
-import "./globals.css";
+import FeedbackButton from "@/app/component/FeedbackButton/page";
 import Header from "@/app/layout/Header";
 import Footer from "@/app/layout/Footer";
+import "./globals.css";
 
 export default function RootLayout({ children }) {
   return (
@@ -11,6 +12,7 @@ export default function RootLayout({ children }) {
       <body className="flex flex-col min-h-screen">
         <Header />
         {children}
+        <FeedbackButton />
         <Analytics />
         <Footer />
       </body>

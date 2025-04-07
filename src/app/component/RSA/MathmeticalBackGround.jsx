@@ -1,7 +1,11 @@
+import CodeIcon from "./SVG/CodeIcon";
+import QuestionIcon from "./SVG/ExcitedIcon";
+
 function MathematicalBackGround() {
   return (
     <div className="border border-blue-200 rounded-xl overflow-hidden shadow-md bg-white">
       <h2 className="font-bold p-4 bg-gradient-to-r from-blue-50 to-sky-50 border-b text-blue-700 flex items-center">
+        <CodeIcon />
         RSA Mathematical Background
       </h2>
 
@@ -53,6 +57,7 @@ function MathematicalBackGround() {
 
         <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
           <h3 className="text-yellow-800 font-semibold mb-2 flex items-center">
+            <QuestionIcon />
             Security Note
           </h3>
           <p className="text-gray-700">

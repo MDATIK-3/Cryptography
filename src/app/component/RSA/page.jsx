@@ -1,8 +1,6 @@
-import MathmeticalBackGround from "./MathmeticalBackGround"
+import MathmeticalBackGround from "./MathmeticalBackGround";
 function page() {
-  return (
-<MathmeticalBackGround/>
-  )
+  return <MathmeticalBackGround />;
 }
 
-export default page
+export default page;
