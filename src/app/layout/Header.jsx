@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Home, Menu, X, Search, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, Search, ChevronDown } from "lucide-react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,17 +40,21 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-gray-800 text-white shadow-md py-2"
-          : "bg-gray-800 text-white py-4"
+      className={`sticky top-0 z-50 bg-gray-800 text-white transition-all duration-300 ${
+        isScrolled ? "shadow-md py-2" : "py-4"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="font-bold text-xl flex items-center">
-            <Home className="mr-2" size={22} />
-            <span className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:opacity-90 bg-clip-text text-transparent">
+            <Image
+              src="/images/logo1.png"
+              alt="CipherAlgo Logo"
+              width={30}
+              height={30}
+              className="rounded-md mr-1 shadow-md scale-75 brightness-150"
+            />
+            <span className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-400 hover:opacity-90 bg-clip-text text-transparent">
               CipherAlgo
             </span>
           </Link>

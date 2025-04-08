@@ -24,7 +24,7 @@ export default function Dashboard() {
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 transition-colors duration-300">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4 py-12">
         <header className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-3 text-gray-800">Cryptography Explorer</h1>
