@@ -1,26 +1,28 @@
+import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
+  secure: process.env.EMAIL_SECURE === 'true',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+
 export async function POST(request) {
   const body = await request.json();
   const { message, email } = body;
 
   if (!message) {
-    return new Response(JSON.stringify({ message: 'Message is required' }), {
-      status: 400,
-    });
+    return NextResponse.json(
+      { message: 'Message is required' },
+      { status: 400 }
+    );
   }
 
   try {
-    const nodemailer = (await import('nodemailer')).default;
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
-      secure: process.env.EMAIL_SECURE === 'true',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
-
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: process.env.EMAIL_TO,
@@ -48,16 +50,19 @@ export async function POST(request) {
         <p style="font-size: 13px; color: #888; text-align: center;">This feedback was sent from your website's contact form.</p>
       </div>
     `
-
     });
 
-    return new Response(JSON.stringify({ message: 'Feedback sent successfully' }), {
-      status: 200,
-    });
+    return NextResponse.json(
+      { message: 'Feedback sent successfully' },
+      { status: 200 }
+    );
+
   } catch (error) {
     console.error('Error sending email:', error);
-    return new Response(JSON.stringify({ message: 'Failed to send feedback' }), {
-      status: 500,
-    });
+
+    return NextResponse.json(
+      { message: 'Failed to send feedback' },
+      { status: 500 }
+    );
   }
 }
