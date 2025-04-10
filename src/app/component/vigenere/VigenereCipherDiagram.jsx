@@ -52,7 +52,7 @@ export default function VigenereCipherDiagram({ keyword, plaintext, mode }) {
             key={index}
             className="text-center p-3 border rounded-lg bg-white shadow-sm transition-all hover:shadow"
           >
-            <div className="font-bold text-indigo-700 mb-2 text-lg">
+            <div className="font-bold text-cyan-600 mb-2 text-lg">
               Key: {group.keyChar}
             </div>
             <div className="text-gray-700 mb-1">

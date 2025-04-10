@@ -61,7 +61,7 @@ const VigenereCipherUI = () => {
 
       steps.push({
         description: "Repeating Key Generation",
-        data: `Cleaned ${
+        data: `${
           mode === "encrypt" ? "Plaintext" : "Ciphertext"
         }: ${cleanedText}\nRepeated Key: ${repeatedKey}`,
       });
@@ -196,7 +196,7 @@ const VigenereCipherUI = () => {
           <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
             <div className="p-3 sm:p-4 bg-green-50 border border-green-300 rounded-md">
               <h2 className="font-bold mb-2 text-green-800">Result:</h2>
-              <div className="text-lg sm:text-2xl font-mono tracking-wider p-2 bg-white rounded border border-green-100 select-all">
+              <div className="text-base sm:text-lg font-mono tracking-wider p-3 bg-white rounded border border-green-100 select-all overflow-x-auto break-words whitespace-pre-wrap">
                 {result.result}
               </div>
             </div>
@@ -206,9 +206,12 @@ const VigenereCipherUI = () => {
                 Process Steps:
               </h2>
 
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-gray-200 overflow-x-auto break-words whitespace-pre-wrap">
                 {result.steps.map((step, index) => (
-                  <div key={index} className="p-3 sm:p-4 bg-white">
+                  <div
+                    key={index}
+                    className="p-3 sm:p-4 bg-white hover:bg-gray-50 hover:cursor-pointer transition-all "
+                  >
                     <h3 className="font-semibold mb-2 text-gray-800">
                       {step.description}
                     </h3>
@@ -222,9 +225,9 @@ const VigenereCipherUI = () => {
                     {step.charSteps && (
                       <div className="mt-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-gray-700">
+                          <h3 className="font-semibold text-gray-900">
                             Character-by-Character Analysis:
-                          </h4>
+                          </h3>
                           <button
                             onClick={() => setShowCharDetails(!showCharDetails)}
                             className="text-cyan-500 hover:text-cyan-600 text-sm font-medium flex items-center"
@@ -279,8 +282,8 @@ const VigenereCipherUI = () => {
                         )}
                         {showCharDetails && (
                           <div className="overflow-x-auto -mx-3 sm:mx-0">
-                            <div className="inline-block min-w-full align-middle sm:px-2 lg:px-4">
-                              <table className="min-w-full border-collapse">
+                            <div className="inline-block min-w-full max-w-full align-middle sm:px-2 lg:px-4 overflow-auto">
+                              <table className="min-w-full border-collapse break-words">
                                 <thead>
                                   <tr>
                                     <th className="p-2 border bg-gray-50 text-gray-700">
