@@ -1,0 +1,320 @@
+"use client";
+import React, { useState } from "react";
+import ModeToggle from "@/app/layout/ModeToggle";
+import TextInput from "@/app/layout/TextInput";
+import KeyInput from "@/app/layout/KeyInput";
+import Button from "@/app/layout/Button";
+
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+const MultiplicativeCipherUI = () => {
+  const [plaintext, setPlaintext] = useState("HELLO");
+  const [key, setKey] = useState("7");
+  const [mode, setMode] = useState("encrypt");
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+
+  const handleProcess = () => {
+    try {
+      setError("");
+      if (mode === "encrypt") {
+        const output = encryptMultiplicative(plaintext, key);
+        setResult(output);
+      } else {
+        const output = decryptMultiplicative(plaintext, key);
+        setResult(output);
+      }
+    } catch (err) {
+      setError(err.message);
+      setResult(null);
+    }
+  };
+
+  function gcd(a, b) {
+    return b === 0 ? a : gcd(b, a % b);
+  }
+
+  function modInverse(a, m) {
+    for (let i = 1; i < m; i++) {
+      if ((a * i) % m === 1) return i;
+    }
+    throw new Error(`Modular inverse does not exist for a=${a} and m=${m}`);
+  }
+
+  function encryptMultiplicative(plaintext, cipherKey) {
+    const steps = [];
+    const key = parseInt(cipherKey, 10);
+
+    if (isNaN(key) || gcd(key, 26) !== 1) {
+      throw new Error("Key must be a number and coprime with 26");
+    }
+
+    steps.push({
+      description: "Process Key",
+      data: `Key = ${cipherKey} (Coprime with 26)`,
+    });
+
+    const mapping = {};
+    let encryptedAlphabet = "";
+
+    for (let i = 0; i < 26; i++) {
+      const newCharIndex = (i * key) % 26;
+      mapping[alphabet[i]] = alphabet[newCharIndex];
+      encryptedAlphabet += alphabet[newCharIndex];
+    }
+
+    steps.push({
+      description: "Create Character Mapping",
+      data: {
+        rows: [
+          { label: "Original", chars: alphabet.split("") },
+          { label: "Encrypted", chars: encryptedAlphabet.split("") },
+        ],
+      },
+    });
+
+    const normalizedPlaintext = plaintext.toUpperCase();
+    let ciphertext = "";
+    const charSteps = [];
+
+    for (let i = 0; i < normalizedPlaintext.length; i++) {
+      const char = normalizedPlaintext[i];
+      const mappedChar = mapping[char] || char;
+      ciphertext += mappedChar;
+
+      if (alphabet.includes(char)) {
+        const charPos = alphabet.indexOf(char);
+        const calculation = `(${charPos} × ${key}) mod 26 = ${
+          (charPos * key) % 26
+        }`;
+        
+        charSteps.push({
+          original: char,
+          mapped: mappedChar,
+          calculation,
+        });
+      } else {
+        charSteps.push({
+          original: char,
+          mapped: char,
+          calculation: "Non-alphabetic character (unchanged)",
+        });
+      }
+    }
+
+    steps.push({
+      description: "Character Transformations",
+      charSteps,
+      data: ciphertext,
+    });
+
+    return { result: ciphertext, steps };
+  }
+
+  function decryptMultiplicative(ciphertext, cipherKey) {
+    const steps = [];
+    const key = parseInt(cipherKey, 10);
+
+    if (isNaN(key) || gcd(key, 26) !== 1) {
+      throw new Error("Key must be a number and coprime with 26");
+    }
+
+    const modInverseKey = modInverse(key, 26);
+
+    steps.push({
+      description: "Process Key",
+      data: `Key = ${cipherKey}, Modular Inverse = ${modInverseKey}`,
+    });
+
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const mapping = {};
+    let decryptedAlphabet = "";
+
+    for (let i = 0; i < 26; i++) {
+      const originalIndex = (i * modInverseKey) % 26;
+      mapping[alphabet[i]] = alphabet[originalIndex];
+      decryptedAlphabet += alphabet[originalIndex];
+    }
+
+    steps.push({
+      description: "Create Character Mapping",
+      data: {
+        rows: [
+          { label: "Encrypted", chars: alphabet.split("") },
+          { label: "Original", chars: decryptedAlphabet.split("") },
+        ],
+      },
+    });
+
+    const normalizedCiphertext = ciphertext.toUpperCase();
+    let plaintext = "";
+    const charSteps = [];
+
+    for (let i = 0; i < normalizedCiphertext.length; i++) {
+      const char = normalizedCiphertext[i];
+      const mappedChar = mapping[char] || char;
+      plaintext += mappedChar;
+
+      if (alphabet.includes(char)) {
+        const charPos = alphabet.indexOf(char);
+        const calculation = `(${charPos} × ${modInverseKey}) mod 26 = ${
+          (charPos * modInverseKey) % 26
+        }`;
+        charSteps.push({
+          original: char,
+          mapped: mappedChar,
+          calculation,
+        });
+      } else {
+        charSteps.push({
+          original: char,
+          mapped: char,
+          calculation: "Non-alphabetic character (unchanged)",
+        });
+      }
+    }
+
+    steps.push({
+      description: "Character Transformations",
+      charSteps,
+      data: plaintext,
+    });
+
+    return { result: plaintext, steps };
+  }
+
+  return (
+    <div className=" bg-gray-50 flex justify-center py-2 sm:py-6">
+      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white rounded-lg shadow transition-all">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">
+          Multiplicative Cipher
+        </h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <ModeToggle mode={mode} setMode={setMode} />
+          <KeyInput
+            keyValue={key}
+            label="Key (must be coprime with 26)"
+            setKey={setKey}
+          />
+        </div>
+
+        <TextInput value={plaintext} onChange={setPlaintext} mode={mode} />
+
+        <div className="mt-4 sm:mt-6">
+          <Button onClick={handleProcess} mode={mode} />
+        </div>
+
+        {error && (
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 border border-red-300 text-red-700 rounded-md">
+            <p className="flex items-center">
+              <span className="mr-2">⚠️</span>
+              {error}
+            </p>
+          </div>
+        )}
+
+        {result && (
+          <div className="mb-6">
+            <div className="mb-4 p-4 bg-green-100 border border-green-400 rounded">
+              <h2 className="font-bold mb-2">Result:</h2>
+              <div className="text-2xl font-mono tracking-wider">
+                {result.result}
+              </div>
+            </div>
+
+            <div className="border border-gray-300 rounded overflow-hidden">
+              <h2 className="font-bold p-4 bg-gray-100 border-b">
+                Process Steps:
+              </h2>
+
+              {result.steps.map((step, index) => (
+                <div key={index} className="p-4 border-b last:border-b-0">
+                  <h3 className="font-semibold mb-2">{step.description}</h3>
+
+                  {typeof step.data === "string" ? (
+                    <div className="font-mono p-2 bg-gray-50 rounded">
+                      {step.data}
+                    </div>
+                  ) : step.data.rows ? (
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full border-collapse">
+                        <tbody>
+                          {step.data.rows.map((row, rowIndex) => (
+                            <tr key={rowIndex}>
+                              <th className="p-2 border bg-gray-50 text-gray-700 text-left w-24">
+                                {row.label}
+                              </th>
+                              {row.chars.map((char, charIndex) => (
+                                <td
+                                  key={charIndex}
+                                  className="p-2 border text-center font-mono"
+                                >
+                                  {char}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : null}
+
+                  {step.charSteps && (
+                    <div className="mt-4">
+                      <h4 className="font-medium mb-2">
+                        Character-by-Character:
+                      </h4>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full border-collapse">
+                          <thead>
+                            <tr>
+                              <th className="p-2 border bg-gray-50">
+                                Original
+                              </th>
+                              <th className="p-2 border bg-gray-50">
+                                Calculation
+                              </th>
+                              <th className="p-2 border bg-gray-50">Result</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {step.charSteps.map((charStep, i) => (
+                              <tr key={i}>
+                                <td className="p-2 border text-center font-mono">
+                                  {charStep.original}
+                                </td>
+                                <td className="p-2 border font-mono">
+                                  {charStep.calculation}
+                                </td>
+                                <td className="p-2 border text-center font-mono">
+                                  {charStep.mapped}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="text-xs text-gray-500 mt-6">
+          <p>
+            Valid keys are numbers that are coprime with 26 (i.e., they share no
+            common factors with 26).
+          </p>
+          <p>
+            Examples of valid keys: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MultiplicativeCipherUI;
