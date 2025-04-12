@@ -14,6 +14,7 @@ const AffineCipherUI = () => {
   const [mode, setMode] = useState("encrypt");
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [showCharDetails, setShowCharDetails] = useState(false);
 
   const handleProcess = () => {
     try {
@@ -267,39 +268,99 @@ const AffineCipherUI = () => {
 
                   {step.charSteps && (
                     <div className="mt-4">
-                      <h4 className="font-medium mb-2">
-                        Character-by-Character:
-                      </h4>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full border-collapse">
-                          <thead>
-                            <tr>
-                              <th className="p-2 border bg-gray-50">
-                                Original
-                              </th>
-                              <th className="p-2 border bg-gray-50">
-                                Calculation
-                              </th>
-                              <th className="p-2 border bg-gray-50">Result</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {step.charSteps.map((charStep, i) => (
-                              <tr key={i}>
-                                <td className="p-2 border text-center font-mono">
-                                  {charStep.original}
-                                </td>
-                                <td className="p-2 border font-mono">
-                                  {charStep.calculation}
-                                </td>
-                                <td className="p-2 border text-center font-mono">
-                                  {charStep.mapped}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium text-gray-700">
+                          Character-by-Character Analysis:
+                        </h4>
+                        <button
+                          onClick={() => setShowCharDetails(!showCharDetails)}
+                          className="text-cyan-500 hover:text-cyan-600 text-sm font-medium flex items-center"
+                        >
+                          {showCharDetails ? "Hide Details" : "See Details"}
+                          <svg
+                            className={`ml-1 h-4 w-4 transition-transform ${
+                              showCharDetails ? "transform rotate-180" : ""
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
                       </div>
+                      {!showCharDetails && (
+                        <div className="bg-gray-50 rounded-md p-3 border border-gray-100">
+                          <div className="flex flex-wrap gap-2">
+                            {step.charSteps.slice(0, 5).map((charStep, i) => (
+                              <div
+                                key={i}
+                                className="bg-white rounded-md p-2 border border-gray-200 shadow-sm"
+                              >
+                                <div className="text-center font-mono mb-1">
+                                  {charStep.original} → {charStep.mapped}
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  {charStep.calculation.includes(
+                                    "Non-alphabetic"
+                                  )
+                                    ? "No change"
+                                    : charStep.calculation.split("=")[0] +
+                                      "=..."}
+                                </div>
+                              </div>
+                            ))}
+                            {step.charSteps.length > 5 && (
+                              <div className="flex items-center justify-center">
+                                <span className="text-gray-500">
+                                  + {step.charSteps.length - 5} more
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      {showCharDetails && (
+                        <div className="overflow-x-auto -mx-3 sm:mx-0">
+                          <div className="inline-block min-w-full align-middle sm:px-2 lg:px-4">
+                            <table className="min-w-full border-collapse">
+                              <thead>
+                                <tr>
+                                  <th className="p-2 border bg-gray-50 text-gray-700">
+                                    Original
+                                  </th>
+                                  <th className="p-2 border bg-gray-50 text-gray-700">
+                                    Calculation
+                                  </th>
+                                  <th className="p-2 border bg-gray-50 text-gray-700">
+                                    Result
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {step.charSteps.map((charStep, i) => (
+                                  <tr key={i}>
+                                    <td className="p-2 border text-center font-mono">
+                                      {charStep.original}
+                                    </td>
+                                    <td className="p-2 border font-mono text-xs sm:text-sm">
+                                      {charStep.calculation}
+                                    </td>
+                                    <td className="p-2 border text-center font-mono">
+                                      {charStep.mapped}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

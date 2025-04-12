@@ -39,6 +39,12 @@
           "name": "Playfair Cipher",
           "image": "/images/playfair.png",
           "description": "A cipher that encrypts pairs of letters instead of single letters"
+        },
+        {
+          "id": "vigenere",
+          "name": "Vigenère Cipher",
+          "image": "/images/vigenere.jpg",
+          "description": "A cipher that uses a keyword to determine the shift for each letter"
         }
       ]
     },

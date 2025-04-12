@@ -1,35 +1,37 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Dashboard() {
-  const [hoveredCipher, setHoveredCipher] = useState(null);
   const [ciphers, setCiphers] = useState([]);
 
   useEffect(() => {
     const handleFetchCiphers = async () => {
       try {
-        const response = await fetch("/data.json"); 
+        const response = await fetch("/data.json");
         if (!response.ok) throw new Error("Failed to fetch ciphers");
-        
+
         const data = await response.json();
         setCiphers(data?.ciphers || []);
       } catch (error) {
         console.error("Error fetching ciphers:", error);
       }
     };
-  
+
     handleFetchCiphers();
   }, []);
-  
+
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-4 py-12">
         <header className="mb-12 text-center">
-          <h1 className="text-4xl font-bold mb-3 text-gray-800">Cryptography Explorer</h1>
+          <h1 className="text-4xl font-bold mb-3 text-gray-800">
+            Cryptography Explorer
+          </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover and learn about various cipher techniques used throughout history for secure communication.
+            Discover and learn about various cipher techniques used throughout
+            history for secure communication.
           </p>
         </header>
 
@@ -38,19 +40,23 @@ export default function Dashboard() {
             <div key={category.category} className="mb-16">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-3 border-b border-gray-200">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-800">{category.category}</h2>
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    {category.category}
+                  </h2>
                   <p className="text-gray-600 mt-1">{category.description}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {category.items.map((cipher) => (
-                  <Link href={`/component/${cipher.id}`} key={cipher.id} className="block h-full">
+                  <Link
+                    href={`/component/${cipher.id}`}
+                    key={cipher.id}
+                    className="block h-full"
+                  >
                     <div
                       className="group h-full rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white transform hover:-translate-y-1"
-                      onMouseEnter={() => setHoveredCipher(cipher.id)}
-                      onMouseLeave={() => setHoveredCipher(null)}
-                    >
+                                        >
                       <div className="h-56 relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-50 animate-pulse"></div>
                         <Image
@@ -70,7 +76,9 @@ export default function Dashboard() {
                         <h3 className="text-xl font-semibold mb-3 text-gray-800 group-hover:text-cyan-600 transition-colors">
                           {cipher.name}
                         </h3>
-                        <p className="text-gray-600 mb-4">{cipher.description}</p>
+                        <p className="text-gray-600 mb-4">
+                          {cipher.description}
+                        </p>
                         <div className="flex items-center text-cyan-600 font-medium group-hover:text-cyan-400 transition-colors">
                           Learn more
                           <svg
@@ -96,7 +104,9 @@ export default function Dashboard() {
             </div>
           ))
         ) : (
-          <p className="text-center text-gray-600">Loading ciphers details...</p>
+          <p className="text-center text-gray-600">
+            Loading ciphers details...
+          </p>
         )}
       </div>
     </div>
