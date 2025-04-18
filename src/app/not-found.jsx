@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
 export default function NotFound() {
-  const [countdown, setCountdown] = useState(310);
+  const [countdown, setCountdown] = useState(10);
   const intervalRef = useRef(null);
 
   useEffect(() => {
