@@ -4,7 +4,7 @@ import QuestionIcon from "./SVG/ExcitedIcon";
 function MathematicalBackGround() {
   return (
     <div className="border border-blue-200 rounded-xl overflow-hidden shadow-md bg-white">
-      <h2 className="font-bold p-4 bg-gradient-to-r from-blue-50 to-sky-50 border-b text-blue-700 flex items-center">
+      <h2 className="font-bold p-4 bg-gradient-to-r from-blue-50 to-sky-50 border-b text-cyan-700 flex items-center">
         <CodeIcon />
         RSA Mathematical Background
       </h2>
@@ -12,7 +12,7 @@ function MathematicalBackGround() {
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100 shadow-sm">
-            <h3 className="text-blue-800 font-semibold mb-3">Key Generation</h3>
+            <h3 className="text-cyan-800 font-semibold mb-3">Key Generation</h3>
             <ol className="list-decimal list-inside space-y-2 text-gray-700">
               <li>Choose two distinct prime numbers, p and q.</li>
               <li>Compute n = p × q</li>
@@ -23,8 +23,8 @@ function MathematicalBackGround() {
               <li>Compute d such that (d × e) mod φ(n) = 1</li>
             </ol>
             <div className="mt-4 p-3 bg-white rounded-lg border border-blue-100">
-              <p className="font-medium text-blue-700">Public Key: (e, n)</p>
-              <p className="font-medium text-indigo-700">Private Key: (d, n)</p>
+              <p className="font-medium text-cyan-700">Public Key: (e, n)</p>
+              <p className="font-medium text-cyan-700">Private Key: (d, n)</p>
             </div>
           </div>
 
