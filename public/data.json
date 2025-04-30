@@ -45,6 +45,24 @@
           "name": "Vigenère Cipher",
           "image": "/images/vigenere.jpg",
           "description": "A cipher that uses a keyword to determine the shift for each letter"
+        },
+        {
+          "id": "hill",
+          "name": "Hill Cipher",
+          "image": "/images/hill.png",
+          "description": "A polygraphic substitution cipher based on linear algebra"
+        }
+      ]
+    },
+    {
+      "category": "Transposition Ciphers",
+      "description": "Methods that rearrange letters without replacing them, changing the order rather than the identity.",
+      "items": [
+        {
+          "id": "railfence",
+          "name": "Rail Fence Cipher",
+          "image": "/images/railfence.png",
+          "description": "A zigzag transposition cipher that writes text in a zigzag pattern"
         }
       ]
     },

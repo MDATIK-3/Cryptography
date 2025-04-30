@@ -2,198 +2,153 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Search, ChevronDown } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleDropdown = (name) => {
-    setDropdownOpen(dropdownOpen === name ? null : name);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const searchParam = params.get("search");
+      if (searchParam) setSearchQuery(searchParam);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === "/" && !(e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
+        e.preventDefault();
+        const searchInput = document.getElementById("header-search");
+        if (searchInput) searchInput.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, []);
+
+  const handleSearchInputChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (typeof window !== "undefined") {
+      if (window.searchTimeout) clearTimeout(window.searchTimeout);
+      window.searchTimeout = setTimeout(() => {
+        triggerSearch(query);
+      }, 300);
+    }
+  };
+
+  const triggerSearch = (query) => {
+    if (query.trim()) {
+      if (window.location.pathname !== "/") {
+        router.push(`/?search=${encodeURIComponent(query.trim())}`);
+      } else {
+        const url = new URL(window.location);
+        url.searchParams.set("search", query.trim());
+        window.history.pushState({}, "", url);
+        window.dispatchEvent(new CustomEvent("headerSearch", { detail: { query: query.trim() } }));
+      }
+    } else if (window.location.pathname === "/") {
+      const url = new URL(window.location);
+      url.searchParams.delete("search");
+      window.history.pushState({}, "", url);
+      window.dispatchEvent(new CustomEvent("headerSearch", { detail: { query: "" } }));
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    triggerSearch(searchQuery);
   };
 
   const navItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    {
-      name: "Services",
-      dropdown: true,
-      items: [
-        { name: "Consulting", path: "/services/consulting" },
-        { name: "Development", path: "/services/development" },
-        { name: "Training", path: "/services/training" },
-      ],
-    },
     { name: "Github", path: "https://github.com/MDATIK-3/Cryptography" },
     { name: "Contact Us", path: "/component/contact" },
   ];
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-gray-800 text-white transition-all duration-300 h-16 flex items-center ${isScrolled ? "shadow-md" : ""
-        }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between">
+    <header className={`sticky top-0 z-50 bg-gray-800 text-white transition-all duration-300 ${isScrolled ? "shadow-md" : ""}`}>
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-around">
           <Link href="/" className="font-bold text-xl flex items-center">
             <Image
               src="/images/logo1.png"
               alt="CipherAlgo Logo"
               width={30}
               height={30}
-              className="rounded-md mr-1 shadow-md scale-75 brightness-150"
+              className="rounded-md mr-2 shadow-md brightness-150"
             />
-            <span className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-400 hover:opacity-90 bg-clip-text text-transparent">
-              CipherAlgo
-            </span>
+            <span className="bg-gradient-to-r from-cyan-400 to-cyan-400 bg-clip-text text-transparent">CipherAlgo</span>
           </Link>
-
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
-              <div key={item.name} className="relative">
-                {item.dropdown ? (
-                  <div>
-                    <button
-                      onClick={() => handleDropdown(item.name)}
-                      className="flex items-center hover:text-gray-200 transition-colors"
-                    >
-                      {item.name}
-                      <ChevronDown size={16} className="ml-1" />
-                    </button>
-                    {dropdownOpen === item.name && (
-                      <div className="absolute top-full mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-20">
-                        {item.items.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            href={subItem.path}
-                            className="block px-4 py-2 text-sm hover:bg-gray-700"
-                            onClick={() => setDropdownOpen(null)}
-                          >
-                            {subItem.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    href={item.path}
-                    className="hover:text-cyan-500 transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                )}
-              </div>
+              <Link key={item.name} href={item.path} className="hover:text-cyan-400 transition-colors duration-200">
+                {item.name}
+              </Link>
             ))}
           </nav>
-
-          <div className="hidden lg:flex items-center space-x-4">
-            <button
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 rounded-full hover:bg-gray-200 bg-white text-gray-600"
-              aria-label="Search"
-            >
-              <Search size={20} />
-            </button>
-            <Link
-              href="/login"
-              className="py-2 px-4 text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm"
-            >
-              Sign In
-            </Link>
+          <div className="hidden md:block relative w-64 lg:w-80">
+            <form onSubmit={handleSearch} className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+              <input
+                id="header-search"
+                type="text"
+                placeholder="Search ciphers..."
+                className="w-full pl-10 pr-4 py-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-1 focus:ring-cyan-500 text-sm"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+              />
+            </form>
           </div>
-
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 lg:hidden rounded-md hover:bg-gray-700"
+            className="p-2 md:hidden rounded-md hover:bg-gray-700 transition-colors"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
-        {isSearchOpen && (
-          <div className="absolute top-full left-0 right-0 bg-gray-800 shadow-md py-3 px-4 border-t border-gray-700">
-            <div className="relative max-w-3xl mx-auto">
-              <Search
-                size={18}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-600 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                autoFocus
-              />
-            </div>
-          </div>
-        )}
       </div>
-
       {isMenuOpen && (
-        <div className="lg:hidden bg-gray-800 shadow-lg">
-          <nav className="container mx-auto px-4 py-3">
-            <ul className="space-y-3">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-gray-800 shadow-lg border-t border-gray-700">
+          <nav className="container mx-auto px-4 py-4">
+            <div className="mb-4">
+              <form onSubmit={handleSearch} className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                <input
+                  type="text"
+                  placeholder="Search ciphers..."
+                  className="w-full pl-10 pr-4 py-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-1 focus:ring-cyan-500 text-sm"
+                  value={searchQuery}
+                  onChange={handleSearchInputChange}
+                />
+              </form>
+            </div>
+            <ul className="space-y-2">
               {navItems.map((item) => (
                 <li key={item.name}>
-                  {item.dropdown ? (
-                    <div>
-                      <button
-                        onClick={() => handleDropdown(item.name)}
-                        className="flex items-center w-full text-left text-white hover:text-gray-200 py-2"
-                      >
-                        {item.name}
-                        <ChevronDown size={16} className="ml-2" />
-                      </button>
-                      {dropdownOpen === item.name && (
-                        <div className="pl-4 mt-1 border-l-2 border-gray-700">
-                          {item.items.map((subItem) => (
-                            <Link
-                              key={subItem.name}
-                              href={subItem.path}
-                              className="block py-2 text-white hover:text-gray-200"
-                              onClick={() => {
-                                setDropdownOpen(null);
-                                setIsMenuOpen(false);
-                              }}
-                            >
-                              {subItem.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      href={item.path}
-                      className="block hover:text-gray-200 py-2"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  )}
+                  <Link
+                    href={item.path}
+                    className="block py-2 px-3 hover:bg-gray-700 hover:text-cyan-400 rounded-md transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
-            <div className="flex items-center mt-6 pt-4 border-t border-gray-700">
-              <Link
-                href="/login"
-                className="py-2 px-4 text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Sign In
-              </Link>
-            </div>
           </nav>
         </div>
       )}

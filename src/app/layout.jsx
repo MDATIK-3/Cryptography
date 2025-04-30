@@ -15,7 +15,15 @@ export default function RootLayout({ children }) {
         <meta charSet="UTF-8" />
         <link rel="icon" href="/images/logo1.png" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5385144928798539"
-          crossorigin="anonymous"></script>
+          crossOrigin="anonymous"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-5385144928798539",
+              enable_page_level_ads: true
+            });
+          `
+        }} />
       </head>
 
       <body className="flex flex-col min-h-screen">
