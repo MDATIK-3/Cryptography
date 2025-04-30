@@ -40,9 +40,8 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 bg-gray-800 text-white transition-all duration-300 ${
-        isScrolled ? "shadow-md py-2" : "py-4"
-      }`}
+      className={`sticky top-0 z-50 bg-gray-800 text-white transition-all duration-300 h-16 flex items-center ${isScrolled ? "shadow-md" : ""
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
