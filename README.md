@@ -4,6 +4,8 @@
 CipherAlgo is an interactive web application for exploring and learning about various cipher techniques used throughout history for secure communication. This platform offers a hands-on approach to understanding both classical and modern cryptographic algorithms.
 
 ![image](https://github.com/user-attachments/assets/b4be4c84-5e71-4f64-963d-98610ec99763)
+![image](https://github.com/user-attachments/assets/8bdda0b0-d386-489b-ad78-cc8d7bad4e4b)
+
 
 
 ## Features
