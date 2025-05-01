@@ -183,7 +183,7 @@ const RailFenceCipherUI = () => {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <tbody>
-            {Array(rails).fill().map((_, row) => (
+                 {Array(rails).fill().map((_, row) => (
               <tr key={row} className="border-b border-gray-200">
                 <td className="py-2 pr-2 text-right font-medium text-gray-600 w-16 sm:w-20 whitespace-nowrap">
                   Rail {row + 1}:
@@ -196,6 +196,10 @@ const RailFenceCipherUI = () => {
                         className={`w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0 flex items-center justify-center border m-0.5 rounded ${
                           char ? 'bg-blue-100 border-blue-300' : 'border-gray-200'
                         }`}
+                      >
+                        {char || ''}
+                      </div>
+                    ))}
                   </div>
                 </td>
               </tr>
