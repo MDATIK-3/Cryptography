@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import data from "@/data.json"; 
 
 export default function Dashboard() {
   const [ciphers, setCiphers] = useState([]);
@@ -9,43 +10,29 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const handleFetchCiphers = async () => {
-      try {
-        const response = await fetch("/data.json");
-        if (!response.ok) throw new Error("Failed to fetch ciphers");
+    const allCiphers = data?.ciphers || [];
+    setCiphers(allCiphers);
+    setFilteredCiphers(allCiphers);
 
-        const data = await response.json();
-        setCiphers(data?.ciphers || []);
-        setFilteredCiphers(data?.ciphers || []);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const searchParam = params.get("search");
 
-        if (typeof window !== 'undefined') {
-          const params = new URLSearchParams(window.location.search);
-          const searchParam = params.get('search');
-
-          if (searchParam) {
-            setSearchQuery(searchParam);
-            filterCiphers(searchParam, data?.ciphers || []);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching ciphers:", error);
+      if (searchParam) {
+        setSearchQuery(searchParam);
+        filterCiphers(searchParam, allCiphers);
       }
-    };
-
-    handleFetchCiphers();
+    }
 
     const handleHeaderSearch = (event) => {
       const query = event.detail.query;
       setSearchQuery(query);
-      filterCiphers(query, ciphers);
+      filterCiphers(query, allCiphers);
     };
 
-    window.addEventListener('headerSearch', handleHeaderSearch);
-
-    return () => {
-      window.removeEventListener('headerSearch', handleHeaderSearch);
-    };
-  }, [ciphers]); 
+    window.addEventListener("headerSearch", handleHeaderSearch);
+    return () => window.removeEventListener("headerSearch", handleHeaderSearch);
+  }, []);
 
   const filterCiphers = (query, ciphersList) => {
     if (!query) {
@@ -53,21 +40,19 @@ export default function Dashboard() {
       return;
     }
 
-    const filtered = ciphersList.map(category => {
-      const matchingItems = category.items.filter(cipher =>
-        cipher.name.toLowerCase().includes(query.toLowerCase()) ||
-        cipher.description.toLowerCase().includes(query.toLowerCase()) ||
-        cipher.id.toLowerCase().includes(query.toLowerCase())
-      );
-
-      if (matchingItems.length > 0) {
-        return {
-          ...category,
-          items: matchingItems
-        };
-      }
-      return null;
-    }).filter(Boolean);
+    const filtered = ciphersList
+      .map((category) => {
+        const matchingItems = category.items.filter((cipher) =>
+          [cipher.name, cipher.description, cipher.id]
+            .some((text) =>
+              text.toLowerCase().includes(query.toLowerCase())
+            )
+        );
+        return matchingItems.length > 0
+          ? { ...category, items: matchingItems }
+          : null;
+      })
+      .filter(Boolean);
 
     setFilteredCiphers(filtered);
   };
@@ -77,17 +62,14 @@ export default function Dashboard() {
     setSearchQuery(query);
     filterCiphers(query, ciphers);
 
-    if (typeof window !== 'undefined') {
-      const url = new URL(window.location);
-      if (query) {
-        url.searchParams.set('search', query);
-      } else {
-        url.searchParams.delete('search');
-      }
-      window.history.pushState({}, '', url);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (query) url.searchParams.set("search", query);
+      else url.searchParams.delete("search");
+      window.history.pushState({}, "", url);
     }
   };
-
+  
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 transition-colors duration-300">
       <div className="container mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-12">
