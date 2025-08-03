@@ -40,34 +40,33 @@ export default function VigenereCipherDiagram({ keyword, plaintext, mode }) {
   if (groups.length === 0) {
     return null;
   }
-
   return (
-    <div className="border rounded-lg bg-gray-50 p-4 md:p-6">
-      <h2 className="text-lg font-semibold text-center mb-4 text-gray-700">
+    <div className="border rounded-lg bg-gray-50 dark:bg-gray-900 p-4 md:p-6 transition-colors duration-300">
+      <h2 className="text-lg font-semibold text-center mb-4 text-gray-700 dark:text-gray-100">
         Cipher Process Visualization
       </h2>
       <div className="flex flex-wrap justify-center gap-3">
         {groups.map((group, index) => (
           <div
             key={index}
-            className="text-center p-3 border rounded-lg bg-white shadow-sm transition-all hover:shadow"
+            className="text-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
           >
-            <div className="font-bold text-cyan-600 mb-2 text-lg">
+            <div className="font-bold text-cyan-600 dark:text-cyan-400 mb-2 text-lg">
               Key: {group.keyChar}
             </div>
-            <div className="text-gray-700 mb-1">
-              <span className="text-xs font-medium text-gray-500 block mb-1">
+            <div className="text-gray-700 dark:text-gray-300 mb-1">
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400 block mb-1">
                 {mode === "encrypt" ? "Plain" : "Cipher"}:
               </span>
-              <span className="font-mono tracking-wide">
+              <span className="font-mono tracking-wide text-base">
                 {group.sourceChars.join(" ")}
               </span>
             </div>
-            <div className="font-semibold text-emerald-600">
-              <span className="text-xs font-medium text-gray-500 block mb-1">
+            <div className="font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400 block mb-1">
                 {mode === "encrypt" ? "Cipher" : "Plain"}:
               </span>
-              <span className="font-mono tracking-wide">
+              <span className="font-mono tracking-wide text-base">
                 {group.resultChars.join(" ")}
               </span>
             </div>

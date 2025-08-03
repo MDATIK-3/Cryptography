@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import ModeToggle from "@/app/layout/ModeToggle";
 import TextInput from "@/app/layout/TextInput";
 import KeyInput from "@/app/layout/KeyInput";
@@ -150,9 +150,9 @@ const VigenereCipherUI = () => {
     return { result: plaintext, step };
   }
   return (
-    <div className="bg-gray-50 flex justify-center py-2 sm:py-6">
-      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white rounded-lg shadow transition-all">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">
+    <div className="bg-gray-50 dark:bg-gray-950 flex justify-center py-2 sm:py-6">
+      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white dark:bg-gray-900 rounded-lg shadow transition-all">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800 dark:text-gray-100">
           Vigenere Cipher
         </h1>
 
@@ -168,7 +168,7 @@ const VigenereCipherUI = () => {
         </div>
 
         {error && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 border border-red-300 text-red-700 rounded-md">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-500/30 text-red-700 dark:text-red-400 rounded-md">
             <p className="flex items-center">
               <span className="mr-2">⚠️</span>
               {error}
@@ -194,30 +194,30 @@ const VigenereCipherUI = () => {
 
         {result && (
           <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
-            <div className="p-3 sm:p-4 bg-green-50 border border-green-300 rounded-md">
-              <h2 className="font-bold mb-2 text-green-800">Result:</h2>
-              <div className="text-base sm:text-lg font-mono tracking-wider p-3 bg-white rounded border border-green-100 select-all overflow-x-auto break-words whitespace-pre-wrap">
+            <div className="p-3 sm:p-4 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/30 rounded-md">
+              <h2 className="font-bold mb-2 text-emerald-800 dark:text-emerald-200">Result:</h2>
+              <div className="text-base sm:text-lg font-mono tracking-wider p-3 bg-white dark:bg-gray-800 rounded border border-emerald-100 dark:border-emerald-500/20 select-all overflow-x-auto break-words whitespace-pre-wrap">
                 {result.result}
               </div>
             </div>
 
-            <div className="border border-gray-200 rounded-md overflow-hidden shadow-sm">
-              <h2 className="font-bold p-3 sm:p-4 bg-gray-50 border-b text-gray-700">
+            <div className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden shadow-sm">
+              <h2 className="font-bold p-3 sm:p-4 bg-slate-100 dark:bg-slate-800 border-b dark:border-gray-700 text-slate-700 dark:text-slate-300">
                 Process Steps:
               </h2>
 
-              <div className="divide-y divide-gray-200 overflow-x-auto break-words whitespace-pre-wrap">
+              <div className="divide-y divide-gray-200 dark:divide-gray-700 overflow-x-auto break-words whitespace-pre-wrap">
                 {result.steps.map((step, index) => (
                   <div
                     key={index}
-                    className="p-3 sm:p-4 bg-white hover:bg-gray-50 hover:cursor-pointer transition-all "
+                    className="p-3 sm:p-4 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800/60 hover:cursor-pointer transition-all "
                   >
-                    <h3 className="font-semibold mb-2 text-gray-800">
+                    <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-200">
                       {step.description}
                     </h3>
 
                     {typeof step.data === "string" ? (
-                      <div className="font-mono p-2 bg-gray-50 rounded-md border border-gray-100 whitespace-pre-wrap">
+                      <div className="font-mono p-2 bg-slate-50 dark:bg-slate-800/50 rounded-md border border-slate-100 dark:border-slate-700/50 whitespace-pre-wrap">
                         {step.data}
                       </div>
                     ) : null}
@@ -225,12 +225,12 @@ const VigenereCipherUI = () => {
                     {step.charSteps && (
                       <div className="mt-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-semibold text-gray-900">
+                          <h3 className="font-semibold text-gray-900 dark:text-gray-200">
                             Character-by-Character Analysis:
                           </h3>
                           <button
                             onClick={() => setShowCharDetails(!showCharDetails)}
-                            className="text-cyan-500 hover:text-cyan-600 text-sm font-medium flex items-center"
+                            className="text-cyan-500 hover:text-cyan-600 dark:text-cyan-400 dark:hover:text-cyan-300 text-sm font-medium flex items-center"
                           >
                             {showCharDetails ? "Hide Details" : "See Details"}
                             <svg
@@ -251,28 +251,28 @@ const VigenereCipherUI = () => {
                           </button>
                         </div>
                         {!showCharDetails && (
-                          <div className="bg-gray-50 rounded-md p-3 border border-gray-100">
+                          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-md p-3 border border-slate-100 dark:border-slate-700/50">
                             <div className="flex flex-wrap gap-2">
                               {step.charSteps.slice(0, 5).map((charStep, i) => (
                                 <div
                                   key={i}
-                                  className="bg-white rounded-md p-2 border border-gray-200 shadow-sm"
+                                  className="bg-white dark:bg-slate-700/50 rounded-md p-2 border border-gray-200 dark:border-slate-600 shadow-sm"
                                 >
-                                  <div className="text-center font-mono mb-1">
+                                  <div className="text-center font-mono mb-1 dark:text-gray-200">
                                     {charStep.original}{" "}
-                                    <span className="text-gray-400">
+                                    <span className="text-gray-400 dark:text-gray-500">
                                       (key: {charStep.keyChar})
                                     </span>{" "}
                                     → {charStep.mapped}
                                   </div>
-                                  <div className="text-xs text-gray-500">
+                                  <div className="text-xs text-gray-500 dark:text-gray-400">
                                     {charStep.calculation}
                                   </div>
                                 </div>
                               ))}
                               {step.charSteps.length > 5 && (
                                 <div className="flex items-center justify-center">
-                                  <span className="text-gray-500">
+                                  <span className="text-gray-500 dark:text-gray-400">
                                     + {step.charSteps.length - 5} more
                                   </span>
                                 </div>
@@ -286,33 +286,33 @@ const VigenereCipherUI = () => {
                               <table className="min-w-full border-collapse break-words">
                                 <thead>
                                   <tr>
-                                    <th className="p-2 border bg-gray-50 text-gray-700">
+                                    <th className="p-2 border dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                                       Original
                                     </th>
-                                    <th className="p-2 border bg-gray-50 text-gray-700">
+                                    <th className="p-2 border dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                                       Key Char
                                     </th>
-                                    <th className="p-2 border bg-gray-50 text-gray-700">
+                                    <th className="p-2 border dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                                       Calculation
                                     </th>
-                                    <th className="p-2 border bg-gray-50 text-gray-700">
+                                    <th className="p-2 border dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                                       Result
                                     </th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {step.charSteps.map((charStep, i) => (
-                                    <tr key={i}>
-                                      <td className="p-2 border text-center font-mono">
+                                    <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-800/60">
+                                      <td className="p-2 border dark:border-slate-700 text-center font-mono">
                                         {charStep.original}
                                       </td>
-                                      <td className="p-2 border text-center font-mono">
+                                      <td className="p-2 border dark:border-slate-700 text-center font-mono">
                                         {charStep.keyChar}
                                       </td>
-                                      <td className="p-2 border font-mono text-xs sm:text-sm">
+                                      <td className="p-2 border dark:border-slate-700 font-mono text-xs sm:text-sm">
                                         {charStep.calculation}
                                       </td>
-                                      <td className="p-2 border text-center font-mono">
+                                      <td className="p-2 border dark:border-slate-700 text-center font-mono">
                                         {charStep.mapped}
                                       </td>
                                     </tr>
