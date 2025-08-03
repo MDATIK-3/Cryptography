@@ -72,21 +72,21 @@ const HillCipherUI = () => {
 
   function encryptHill(plaintext, key) {
     const steps = [];
-    
+
     const normalizedText = plaintext.toUpperCase().replace(/[^A-Z]/g, "");
-    
+
     let processedText = normalizedText;
     if (processedText.length % 2 !== 0) {
       processedText += "X";
     }
-    
+
     steps.push({
       description: "Prepare Text",
       data: `Original: "${plaintext}" → Normalized: "${processedText}"`
     });
-    
+
     const keyMatrix = createKeyMatrix(key);
-    
+
     steps.push({
       description: "Key Matrix 2x2",
       data: {
@@ -94,66 +94,66 @@ const HillCipherUI = () => {
         explanation: `Key "${key}" converted to matrix form`
       }
     });
-    
+
     let ciphertext = "";
     const detailSteps = [];
-    
+
     for (let i = 0; i < processedText.length; i += 2) {
       const block = [charToNum(processedText[i]), charToNum(processedText[i + 1])];
-      
+
       const result = [
         (keyMatrix[0][0] * block[0] + keyMatrix[0][1] * block[1]) % 26,
         (keyMatrix[1][0] * block[0] + keyMatrix[1][1] * block[1]) % 26
       ];
-      
+
       const encryptedBlock = numToChar(result[0]) + numToChar(result[1]);
       ciphertext += encryptedBlock;
-      
+
       detailSteps.push({
         block: processedText.substring(i, i + 2),
         calculation: `[${keyMatrix[0][0]}, ${keyMatrix[0][1]}] × [${block[0]}] = [${result[0]}] = ${numToChar(result[0])}\n` +
-                    `[${keyMatrix[1][0]}, ${keyMatrix[1][1]}] × [${block[1]}] = [${result[1]}] = ${numToChar(result[1])}`
+          `[${keyMatrix[1][0]}, ${keyMatrix[1][1]}] × [${block[1]}] = [${result[1]}] = ${numToChar(result[1])}`
       });
     }
-    
+
     steps.push({
       description: "Encryption Steps",
       detailSteps,
       data: ciphertext
     });
-    
+
     return { result: ciphertext, steps };
   }
 
   function decryptHill(ciphertext, key) {
     const steps = [];
-    
+
     const normalizedText = ciphertext.toUpperCase().replace(/[^A-Z]/g, "");
-    
+
     if (normalizedText.length % 2 !== 0) {
       throw new Error("Ciphertext length must be even for 2x2 Hill cipher");
     }
-    
+
     steps.push({
       description: "Prepare Text",
       data: `Original: "${ciphertext}" → Normalized: "${normalizedText}"`
     });
-    
+
     const keyMatrix = createKeyMatrix(key);
-    
+
     const det = (keyMatrix[0][0] * keyMatrix[1][1] - keyMatrix[0][1] * keyMatrix[1][0]) % 26;
     const detInv = modInverse((det + 26) % 26, 26);
-    
+
     const adjMatrix = [
       [keyMatrix[1][1], (-keyMatrix[0][1] + 26) % 26],
       [(-keyMatrix[1][0] + 26) % 26, keyMatrix[0][0]]
     ];
-    
+
     const invMatrix = [
       [(adjMatrix[0][0] * detInv) % 26, (adjMatrix[0][1] * detInv) % 26],
       [(adjMatrix[1][0] * detInv) % 26, (adjMatrix[1][1] * detInv) % 26]
     ];
-    
+
     steps.push({
       description: "Key Inverse Matrix 2x2",
       data: {
@@ -161,47 +161,50 @@ const HillCipherUI = () => {
         explanation: `Inverse of key matrix for decryption (det=${det}, detInv=${detInv})`
       }
     });
-    
+
     let plaintext = "";
     const detailSteps = [];
-    
+
     for (let i = 0; i < normalizedText.length; i += 2) {
       const block = [charToNum(normalizedText[i]), charToNum(normalizedText[i + 1])];
-      
+
       const result = [
         (invMatrix[0][0] * block[0] + invMatrix[0][1] * block[1]) % 26,
         (invMatrix[1][0] * block[0] + invMatrix[1][1] * block[1]) % 26
       ];
-      
+
       const decryptedBlock = numToChar(result[0]) + numToChar(result[1]);
       plaintext += decryptedBlock;
-      
+
       detailSteps.push({
         block: normalizedText.substring(i, i + 2),
         calculation: `[${invMatrix[0][0]}, ${invMatrix[0][1]}] × [${block[0]}] = [${result[0]}] = ${numToChar(result[0])}\n` +
-                     `[${invMatrix[1][0]}, ${invMatrix[1][1]}] × [${block[1]}] = [${result[1]}] = ${numToChar(result[1])}`
+          `[${invMatrix[1][0]}, ${invMatrix[1][1]}] × [${block[1]}] = [${result[1]}] = ${numToChar(result[1])}`
       });
     }
-    
+
     steps.push({
       description: "Decryption Steps",
       detailSteps,
       data: plaintext
     });
-    
+
     return { result: plaintext, steps };
   }
-
   return (
-    <div className="bg-gray-50 flex justify-center py-2 sm:py-6">
-      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white rounded-lg shadow transition-all">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">
+    <div className="bg-gray-50 dark:bg-gray-900 flex justify-center py-2 sm:py-6">
+      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow dark:shadow-lg transition-all">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800 dark:text-gray-100">
           Hill Cipher
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
           <ModeToggle mode={mode} setMode={setMode} />
-          <KeyInput keyValue={key} label="Key (4 letters for 2x2 matrix)" setKey={setKey} />
+          <KeyInput
+            keyValue={key}
+            label="Key (4 letters for 2x2 matrix)"
+            setKey={setKey}
+          />
         </div>
 
         <TextInput value={plaintext} onChange={setPlaintext} mode={mode} />
@@ -211,7 +214,7 @@ const HillCipherUI = () => {
         </div>
 
         {error && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 border border-red-300 text-red-700 rounded-md">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 rounded-md">
             <p className="flex items-center">
               <span className="mr-2">⚠️</span>
               {error}
@@ -221,38 +224,43 @@ const HillCipherUI = () => {
 
         {result && (
           <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
-            <div className="p-3 sm:p-4 bg-green-50 border border-green-300 rounded-md">
-              <h2 className="font-bold mb-2 text-green-800">Result:</h2>
-              <div className="text-lg sm:text-2xl font-mono tracking-wider p-2 bg-white rounded border border-green-100 select-all">
+            <div className="p-3 sm:p-4 bg-green-50 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-md">
+              <h2 className="font-bold mb-2 text-green-800 dark:text-green-300">
+                Result:
+              </h2>
+              <div className="text-lg sm:text-2xl font-mono tracking-wider p-2 bg-white dark:bg-gray-700 rounded border border-green-100 dark:border-green-600 select-all text-gray-900 dark:text-green-200">
                 {result.result}
               </div>
             </div>
 
-            <div className="border border-gray-200 rounded-md overflow-hidden shadow-sm">
-              <h2 className="font-bold p-3 sm:p-4 bg-gray-50 border-b text-gray-700">
+            <div className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden shadow-sm dark:shadow-md">
+              <h2 className="font-bold p-3 sm:p-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300">
                 Process Steps:
               </h2>
 
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 {result.steps.map((step, index) => (
-                  <div key={index} className="p-3 sm:p-4 bg-white">
-                    <h3 className="font-semibold mb-2 text-gray-800">
+                  <div key={index} className="p-3 sm:p-4 bg-white dark:bg-gray-800">
+                    <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-200">
                       {step.description}
                     </h3>
 
                     {typeof step.data === "string" ? (
-                      <div className="font-mono p-2 bg-gray-50 rounded-md border border-gray-100">
+                      <div className="font-mono p-2 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-100 dark:border-gray-600 text-gray-900 dark:text-gray-300">
                         {step.data}
                       </div>
                     ) : step.data?.matrix ? (
-                      <div className="p-3 bg-gray-50 rounded-md border border-gray-100">
+                      <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-100 dark:border-gray-600">
                         <div className="mb-2 flex justify-center">
                           <table className="border-collapse">
                             <tbody>
                               {step.data.matrix.map((row, i) => (
                                 <tr key={i}>
                                   {row.map((cell, j) => (
-                                    <td key={j} className="border border-gray-300 p-2 text-center min-w-[40px]">
+                                    <td
+                                      key={j}
+                                      className="border border-gray-300 dark:border-gray-600 p-2 text-center min-w-[40px] text-gray-900 dark:text-gray-300"
+                                    >
                                       {cell}
                                     </td>
                                   ))}
@@ -261,25 +269,26 @@ const HillCipherUI = () => {
                             </tbody>
                           </table>
                         </div>
-                        <p className="text-sm text-gray-600">{step.data.explanation}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {step.data.explanation}
+                        </p>
                       </div>
                     ) : null}
 
                     {step.detailSteps && (
                       <div className="mt-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-gray-700">
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">
                             Block-by-Block Analysis:
                           </h4>
                           <button
                             onClick={() => setShowCharDetails(!showCharDetails)}
-                            className="text-cyan-500 hover:text-cyan-600 text-sm font-medium flex items-center"
+                            className="text-cyan-500 hover:text-cyan-600 dark:hover:text-cyan-400 text-sm font-medium flex items-center"
                           >
                             {showCharDetails ? "Hide Details" : "See Details"}
                             <svg
-                              className={`ml-1 h-4 w-4 transition-transform ${
-                                showCharDetails ? "transform rotate-180" : ""
-                              }`}
+                              className={`ml-1 h-4 w-4 transition-transform ${showCharDetails ? "transform rotate-180" : ""
+                                }`}
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -294,24 +303,24 @@ const HillCipherUI = () => {
                           </button>
                         </div>
                         {!showCharDetails ? (
-                          <div className="bg-gray-50 rounded-md p-3 border border-gray-100">
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-md p-3 border border-gray-100 dark:border-gray-600">
                             <div className="flex flex-wrap gap-2">
                               {step.detailSteps.slice(0, 3).map((detail, i) => (
                                 <div
                                   key={i}
-                                  className="bg-white rounded-md p-2 border border-gray-200 shadow-sm"
+                                  className="bg-white dark:bg-gray-800 rounded-md p-2 border border-gray-200 dark:border-gray-700 shadow-sm"
                                 >
-                                  <div className="text-center font-mono mb-1">
+                                  <div className="text-center font-mono mb-1 text-gray-900 dark:text-gray-300">
                                     Block: {detail.block}
                                   </div>
-                                  <div className="text-xs text-gray-500">
+                                  <div className="text-xs text-gray-500 dark:text-gray-400">
                                     Matrix calculation...
                                   </div>
                                 </div>
                               ))}
                               {step.detailSteps.length > 3 && (
                                 <div className="flex items-center justify-center">
-                                  <span className="text-gray-500">
+                                  <span className="text-gray-500 dark:text-gray-400">
                                     + {step.detailSteps.length - 3} more blocks
                                   </span>
                                 </div>
@@ -321,12 +330,14 @@ const HillCipherUI = () => {
                         ) : (
                           <div className="space-y-3">
                             {step.detailSteps.map((detail, i) => (
-                              <div 
-                                key={i} 
-                                className="bg-gray-50 rounded-md p-3 border border-gray-100"
+                              <div
+                                key={i}
+                                className="bg-gray-50 dark:bg-gray-700 rounded-md p-3 border border-gray-100 dark:border-gray-600"
                               >
-                                <div className="font-medium mb-1">Block: {detail.block}</div>
-                                <div className="font-mono whitespace-pre-wrap text-sm">
+                                <div className="font-medium mb-1 text-gray-900 dark:text-gray-300">
+                                  Block: {detail.block}
+                                </div>
+                                <div className="font-mono whitespace-pre-wrap text-sm text-gray-900 dark:text-gray-300">
                                   {detail.calculation}
                                 </div>
                               </div>
@@ -342,8 +353,8 @@ const HillCipherUI = () => {
           </div>
         )}
 
-        <div className="text-xs sm:text-sm text-gray-500 mt-4 sm:mt-6 p-3 bg-gray-50 rounded-md border border-gray-100">
-          <h3 className="font-medium text-gray-700 mb-1">About Hill Cipher</h3>
+        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-4 sm:mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-100 dark:border-gray-700">
+          <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-1">About Hill Cipher</h3>
           <p className="mb-1">
             The Hill cipher is a polygraphic substitution cipher based on linear algebra. It was invented by Lester S. Hill in 1929.
           </p>

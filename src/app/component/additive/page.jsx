@@ -174,9 +174,9 @@ const AdditiveCipherUI = () => {
   }
 
   return (
-    <div className=" bg-gray-50 flex justify-center py-2 sm:py-6">
-      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white rounded-lg shadow transition-all">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">
+    <div className="bg-gray-50 dark:bg-gray-900 flex justify-center py-2 sm:py-6">
+      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow transition-all">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800 dark:text-gray-100">
           Additive (Caesar) Cipher
         </h1>
 
@@ -192,7 +192,7 @@ const AdditiveCipherUI = () => {
         </div>
 
         {error && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 border border-red-300 text-red-700 rounded-md">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900 border border-red-300 dark:border-red-600 text-red-700 dark:text-red-300 rounded-md">
             <p className="flex items-center">
               <span className="mr-2">⚠️</span>
               {error}
@@ -202,27 +202,29 @@ const AdditiveCipherUI = () => {
 
         {result && (
           <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
-            <div className="p-3 sm:p-4 bg-green-50 border border-green-300 rounded-md">
-              <h2 className="font-bold mb-2 text-green-800">Result:</h2>
-              <div className="text-lg sm:text-2xl font-mono tracking-wider p-2 bg-white rounded border border-green-100 select-all">
+            <div className="p-3 sm:p-4 bg-green-50 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-md">
+              <h2 className="font-bold mb-2 text-green-800 dark:text-green-300">
+                Result:
+              </h2>
+              <div className="text-lg sm:text-2xl font-mono tracking-wider p-2 bg-white dark:bg-gray-700 rounded border border-green-100 dark:border-green-600 select-all text-gray-900 dark:text-gray-100">
                 {result.result}
               </div>
             </div>
 
-            <div className="border border-gray-200 rounded-md overflow-hidden shadow-sm">
-              <h2 className="font-bold p-3 sm:p-4 bg-gray-50 border-b text-gray-700">
+            <div className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden shadow-sm">
+              <h2 className="font-bold p-3 sm:p-4 bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600 text-gray-700 dark:text-gray-200">
                 Process Steps:
               </h2>
 
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 {result.steps.map((step, index) => (
-                  <div key={index} className="p-3 sm:p-4 bg-white">
-                    <h3 className="font-semibold mb-2 text-gray-800">
+                  <div key={index} className="p-3 sm:p-4 bg-white dark:bg-gray-800">
+                    <h3 className="font-semibold mb-2 text-gray-800 dark:text-gray-200">
                       {step.description}
                     </h3>
 
                     {typeof step.data === "string" ? (
-                      <div className="font-mono p-2 bg-gray-50 rounded-md border border-gray-100">
+                      <div className="font-mono p-2 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-100 dark:border-gray-600 text-gray-800 dark:text-gray-200">
                         {step.data}
                       </div>
                     ) : step.data.rows ? (
@@ -232,13 +234,13 @@ const AdditiveCipherUI = () => {
                             <tbody>
                               {step.data.rows.map((row, rowIndex) => (
                                 <tr key={rowIndex}>
-                                  <th className="p-2 border bg-gray-50 text-gray-700 text-left w-24">
+                                  <th className="p-2 border bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-left w-24">
                                     {row.label}
                                   </th>
                                   {row.chars.map((char, charIndex) => (
                                     <td
                                       key={charIndex}
-                                      className="p-2 border text-center font-mono"
+                                      className="p-2 border text-center font-mono text-gray-800 dark:text-gray-100"
                                     >
                                       {char}
                                     </td>
@@ -254,7 +256,7 @@ const AdditiveCipherUI = () => {
                     {step.charSteps && (
                       <div className="mt-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-gray-700">
+                          <h4 className="font-medium text-gray-700 dark:text-gray-200">
                             Character-by-Character Analysis:
                           </h4>
                           <button
@@ -280,17 +282,17 @@ const AdditiveCipherUI = () => {
                           </button>
                         </div>
                         {!showCharDetails && (
-                          <div className="bg-gray-50 rounded-md p-3 border border-gray-100">
+                          <div className="bg-gray-50 dark:bg-gray-700 rounded-md p-3 border border-gray-100 dark:border-gray-600">
                             <div className="flex flex-wrap gap-2">
                               {step.charSteps.slice(0, 5).map((charStep, i) => (
                                 <div
                                   key={i}
-                                  className="bg-white rounded-md p-2 border border-gray-200 shadow-sm"
+                                  className="bg-white dark:bg-gray-800 rounded-md p-2 border border-gray-200 dark:border-gray-600 shadow-sm"
                                 >
-                                  <div className="text-center font-mono mb-1">
+                                  <div className="text-center font-mono mb-1 text-gray-800 dark:text-gray-100">
                                     {charStep.original} → {charStep.mapped}
                                   </div>
-                                  <div className="text-xs text-gray-500">
+                                  <div className="text-xs text-gray-500 dark:text-gray-400">
                                     {charStep.calculation.includes(
                                       "Non-alphabetic"
                                     )
@@ -302,7 +304,7 @@ const AdditiveCipherUI = () => {
                               ))}
                               {step.charSteps.length > 5 && (
                                 <div className="flex items-center justify-center">
-                                  <span className="text-gray-500">
+                                  <span className="text-gray-500 dark:text-gray-400">
                                     + {step.charSteps.length - 5} more
                                   </span>
                                 </div>
@@ -316,13 +318,13 @@ const AdditiveCipherUI = () => {
                               <table className="min-w-full border-collapse">
                                 <thead>
                                   <tr>
-                                    <th className="p-2 border bg-gray-50 text-gray-700">
+                                    <th className="p-2 border bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                                       Original
                                     </th>
-                                    <th className="p-2 border bg-gray-50 text-gray-700">
+                                    <th className="p-2 border bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                                       Calculation
                                     </th>
-                                    <th className="p-2 border bg-gray-50 text-gray-700">
+                                    <th className="p-2 border bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                                       Result
                                     </th>
                                   </tr>
@@ -330,13 +332,13 @@ const AdditiveCipherUI = () => {
                                 <tbody>
                                   {step.charSteps.map((charStep, i) => (
                                     <tr key={i}>
-                                      <td className="p-2 border text-center font-mono">
+                                      <td className="p-2 border text-center font-mono text-gray-800 dark:text-gray-100">
                                         {charStep.original}
                                       </td>
-                                      <td className="p-2 border font-mono text-xs sm:text-sm">
+                                      <td className="p-2 border font-mono text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                                         {charStep.calculation}
                                       </td>
-                                      <td className="p-2 border text-center font-mono">
+                                      <td className="p-2 border text-center font-mono text-gray-800 dark:text-gray-100">
                                         {charStep.mapped}
                                       </td>
                                     </tr>
@@ -355,8 +357,10 @@ const AdditiveCipherUI = () => {
           </div>
         )}
 
-        <div className="text-xs sm:text-sm text-gray-500 mt-4 sm:mt-6 p-3 bg-gray-50 rounded-md border border-gray-100">
-          <h3 className="font-medium text-gray-700 mb-1">About the Cipher</h3>
+        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-4 sm:mt-6 p-3 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-100 dark:border-gray-600">
+          <h3 className="font-medium text-gray-700 dark:text-gray-200 mb-1">
+            About the Cipher
+          </h3>
           <p className="mb-1">
             The Additive Cipher (also known as Caesar Cipher) is a simple
             substitution cipher where each letter is shifted by a fixed number
