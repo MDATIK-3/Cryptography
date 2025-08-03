@@ -42,14 +42,14 @@ export default function FeedbackButton() {
   return (
     <div className="fixed bottom-16 right-6 z-50">
       {isOpen ? (
-        <div className="bg-white rounded-lg shadow-lg p-4 w-80 border border-gray-200">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-4 w-80 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <div className="flex justify-between items-center mb-3">
-            <h3 className="font-semibold text-lg text-cyan-700">
+            <h3 className="font-semibold text-lg text-cyan-700 dark:text-cyan-400">
               Share Your Thoughts
             </h3>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-gray-500 cursor-pointer hover:text-cyan-600 p-1"
+              className="text-gray-500 dark:text-gray-400 cursor-pointer hover:text-cyan-600 dark:hover:text-cyan-400 p-1"
               aria-label="Close feedback form"
             >
               <X size={18} />
@@ -57,16 +57,16 @@ export default function FeedbackButton() {
           </div>
 
           {isSent ? (
-            <div className="text-green-600 py-8 text-center">
+            <div className="text-green-600 dark:text-green-400 py-8 text-center">
               <p className="font-medium mb-2">Thank you for your feedback!</p>
-              <p className="text-sm text-gray-600">We appreciate your input.</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">We appreciate your input.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   How can we improve?
                 </label>
@@ -76,7 +76,7 @@ export default function FeedbackButton() {
                   onChange={(e) => setMessage(e.target.value)}
                   required
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                   placeholder="Share your experience, suggestions, or report any issues..."
                 />
               </div>
@@ -84,10 +84,10 @@ export default function FeedbackButton() {
               <div className="mb-4">
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Your Email{" "}
-                  <span className="text-xs font-normal text-gray-500">
+                  <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
                     (optional)
                   </span>
                 </label>
@@ -96,11 +96,10 @@ export default function FeedbackButton() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                   placeholder="your@email.com"
                 />
               </div>
-
               <button
                 type="submit"
                 disabled={isSending || !message}

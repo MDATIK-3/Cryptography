@@ -2,13 +2,14 @@
 
 import { Analytics } from "@vercel/analytics/react";
 import FeedbackButton from "@/app/component/FeedbackButton/page";
+import { Providers } from "@/app/Theme/ThemeProvider"
 import Header from "@/app/layout/Header";
 import Footer from "@/app/layout/Footer";
 import "./globals.css";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <title>CipherAlgo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,11 +28,13 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <FeedbackButton />
+        <Providers>
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <FeedbackButton />
+          <Footer />
+        </Providers>
         <Analytics />
-        <Footer />
       </body>
     </html>
   );

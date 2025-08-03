@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import data from "@/data.json"; 
+import data from "@/data.json";
 
 export default function Dashboard() {
   const [ciphers, setCiphers] = useState([]);
@@ -43,10 +43,9 @@ export default function Dashboard() {
     const filtered = ciphersList
       .map((category) => {
         const matchingItems = category.items.filter((cipher) =>
-          [cipher.name, cipher.description, cipher.id]
-            .some((text) =>
-              text.toLowerCase().includes(query.toLowerCase())
-            )
+          [cipher.name, cipher.description, cipher.id].some((text) =>
+            text.toLowerCase().includes(query.toLowerCase())
+          )
         );
         return matchingItems.length > 0
           ? { ...category, items: matchingItems }
@@ -57,27 +56,14 @@ export default function Dashboard() {
     setFilteredCiphers(filtered);
   };
 
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    setSearchQuery(query);
-    filterCiphers(query, ciphers);
-
-    if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      if (query) url.searchParams.set("search", query);
-      else url.searchParams.delete("search");
-      window.history.pushState({}, "", url);
-    }
-  };
-  
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 transition-colors duration-300">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 dark:from-gray-900 dark:to-gray-950 dark:text-gray-100 transition-colors duration-300">
       <div className="container mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-12">
         <header className="mb-12 text-center">
-          <h1 className="text-4xl font-bold mb-3 text-gray-800">
+          <h1 className="text-4xl font-bold mb-3 text-gray-800 dark:text-gray-100">
             Cryptography Explorer
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
             Discover and learn about various cipher techniques used throughout
             history for secure communication.
           </p>
@@ -86,12 +72,14 @@ export default function Dashboard() {
         {filteredCiphers.length > 0 ? (
           filteredCiphers.map((category) => (
             <div key={category.category} className="mb-16">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-3 border-b border-gray-200">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-3 border-b border-gray-200 dark:border-gray-700">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                     {category.category}
                   </h2>
-                  <p className="text-gray-600 mt-1">{category.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400 mt-1">
+                    {category.description}
+                  </p>
                 </div>
               </div>
 
@@ -102,11 +90,9 @@ export default function Dashboard() {
                     key={cipher.id}
                     className="block h-full"
                   >
-                    <div
-                      className="group h-full rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white transform hover:-translate-y-1"
-                    >
+                    <div className="group h-full rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white dark:bg-gray-800 transform hover:-translate-y-1">
                       <div className="h-56 relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-50 animate-pulse"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-50 dark:from-gray-700 dark:to-gray-600 animate-pulse"></div>
                         <Image
                           src={cipher.image}
                           alt={cipher.name}
@@ -122,13 +108,13 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="p-6">
-                        <h3 className="text-xl font-semibold mb-3 text-gray-800 group-hover:text-cyan-600 transition-colors">
+                        <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-gray-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                           {cipher.name}
                         </h3>
-                        <p className="text-gray-600 mb-4">
+                        <p className="text-gray-600 dark:text-gray-400 mb-4">
                           {cipher.description}
                         </p>
-                        <div className="flex items-center text-cyan-600 font-medium group-hover:text-cyan-400 transition-colors">
+                        <div className="flex items-center text-cyan-600 dark:text-cyan-400 font-medium group-hover:text-cyan-400 transition-colors">
                           Learn more
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -154,26 +140,13 @@ export default function Dashboard() {
           ))
         ) : searchQuery ? (
           <div className="text-center py-12">
-            <div className="mb-4 text-gray-400">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-2 text-gray-700">No matching ciphers found</h3>
-            <p className="text-gray-500 mb-6">Try a different search term or browse all ciphers</p>
-            <button
-              onClick={() => {
-                setSearchQuery("");
-                setFilteredCiphers(ciphers);
-              }}
-              className="py-2 px-4 bg-cyan-500 text-white rounded-md hover:bg-cyan-600 transition-colors"
-            >
-              View All Ciphers
-            </button>
+            <p className="text-gray-500 dark:text-gray-400">
+              No ciphers found for "{searchQuery}"
+            </p>
           </div>
         ) : (
-          <p className="text-center text-gray-600">
-            Loading ciphers details...
+          <p className="text-center text-gray-600 dark:text-gray-400">
+            Loading ciphers...
           </p>
         )}
       </div>

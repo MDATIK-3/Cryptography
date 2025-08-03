@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ToggleButton from "@/app/Theme/ToggleButton"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -112,6 +113,7 @@ export default function Header() {
               />
             </form>
           </div>
+          <ToggleButton/>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 md:hidden rounded-md hover:bg-gray-700 transition-colors"

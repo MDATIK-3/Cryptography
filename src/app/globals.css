@@ -1,22 +1,48 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #0ea5e9;
+  --primary-foreground: #f0f9ff;
+  --secondary: #8b5cf6;
+  --secondary-foreground: #f5f3ff;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #e5e7eb;
+  --accent-foreground: #1f2937;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #0ea5e9;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --background: #020617;
+  --foreground: #f1f5f9;
+  --card: #0f172a;
+  --card-foreground: #f1f5f9;
+  --popover: #020617;
+  --popover-foreground: #f1f5f9;
+  --primary: #38bdf8;
+  --primary-foreground: #0c4a6e;
+  --secondary: #a78bfa;
+  --secondary-foreground: #1e1b4b;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #e2e8f0;
+  --border: #1e293b;
+  --input: #334155;
+  --ring: #38bdf8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
@@ -25,7 +51,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 .min-h-screen-minus-header {
-  min-height: calc(100vh - 4rem); 
+  min-height: calc(100vh - 4rem);
 }
