@@ -141,13 +141,11 @@ const PlayfairCipherUI = () => {
         newChar1 = grid[pos1.row][(pos1.col + 1) % 5];
         newChar2 = grid[pos2.row][(pos2.col + 1) % 5];
         rule = "Same row: shift right (wrap if needed)";
-      }
-      else if (pos1.col === pos2.col) {
+      } else if (pos1.col === pos2.col) {
         newChar1 = grid[(pos1.row + 1) % 5][pos1.col];
         newChar2 = grid[(pos2.row + 1) % 5][pos2.col];
         rule = "Same column: shift down (wrap if needed)";
-      }
-      else {
+      } else {
         newChar1 = grid[pos1.row][pos2.col];
         newChar2 = grid[pos2.row][pos1.col];
         rule = "Rectangle: exchange columns";
@@ -236,16 +234,14 @@ const PlayfairCipherUI = () => {
       let rule;
 
       if (pos1.row === pos2.row) {
-        newChar1 = grid[pos1.row][(pos1.col + 4) % 5]; 
+        newChar1 = grid[pos1.row][(pos1.col + 4) % 5];
         newChar2 = grid[pos2.row][(pos2.col + 4) % 5];
         rule = "Same row: shift left (wrap if needed)";
-      }
-      else if (pos1.col === pos2.col) {
+      } else if (pos1.col === pos2.col) {
         newChar1 = grid[(pos1.row + 4) % 5][pos1.col];
         newChar2 = grid[(pos2.row + 4) % 5][pos2.col];
         rule = "Same column: shift up (wrap if needed)";
-      }
-      else {
+      } else {
         newChar1 = grid[pos1.row][pos2.col];
         newChar2 = grid[pos2.row][pos1.col];
         rule = "Rectangle: exchange columns";
@@ -280,7 +276,7 @@ const PlayfairCipherUI = () => {
 
   const PlayfairGrid = ({ grid, highlights = null }) => {
     return (
-      <div className="border border-gray-300 inline-block">
+      <div className="border border-gray-300 dark:border-gray-700 inline-block">
         <table className="border-collapse">
           <tbody>
             {grid.map((row, rowIndex) => (
@@ -295,7 +291,7 @@ const PlayfairCipherUI = () => {
                       if (pos.row === rowIndex && pos.col === colIndex) {
                         isHighlighted = true;
                         highlightClass =
-                          i === 0 ? "bg-blue-200" : "bg-green-200";
+                          i === 0 ? "bg-blue-200 dark:bg-blue-500/30" : "bg-green-200 dark:bg-green-500/30";
                       }
                     }
                   }
@@ -303,7 +299,7 @@ const PlayfairCipherUI = () => {
                   return (
                     <td
                       key={colIndex}
-                      className={`w-10 h-10 text-center border border-gray-300 font-mono text-lg ${highlightClass}`}
+                      className={`w-10 h-10 text-center border border-gray-300 dark:border-gray-700 font-mono text-lg dark:text-gray-200 ${highlightClass}`}
                     >
                       {cell}
                     </td>
@@ -318,9 +314,9 @@ const PlayfairCipherUI = () => {
   };
 
   return (
-    <div className=" bg-gray-50 flex justify-center py-2 sm:py-6">
-      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white rounded-lg shadow transition-all">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">
+    <div className="bg-gray-50 dark:bg-gray-950 flex justify-center py-2 sm:py-6">
+      <div className="p-4 sm:p-6 md:p-8 my-2 sm:my-4 md:my-6 max-w-7xl w-full mx-auto bg-white dark:bg-gray-900 rounded-lg shadow transition-all">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800 dark:text-gray-100">
           Playfair Cipher
         </h1>
 
@@ -336,7 +332,7 @@ const PlayfairCipherUI = () => {
         </div>
 
         {error && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 border border-red-300 text-red-700 rounded-md">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-500/30 text-red-700 dark:text-red-400 rounded-md">
             <p className="flex items-center">
               <span className="mr-2">⚠️</span>
               {error}
@@ -346,31 +342,31 @@ const PlayfairCipherUI = () => {
 
         {result && (
           <div className="mb-6">
-            <div className="mb-4 p-4 bg-green-100 border border-green-400 rounded">
-              <h2 className="font-bold mb-2">Result:</h2>
-              <div className="text-2xl font-mono tracking-wider">
+            <div className="mb-4 p-4 bg-green-100 dark:bg-green-500/10 border border-green-400 dark:border-green-500/30 rounded">
+              <h2 className="font-bold mb-2 dark:text-gray-200">Result:</h2>
+              <div className="text-2xl font-mono tracking-wider dark:text-green-300">
                 {result.result}
               </div>
             </div>
 
-            <div className="border border-gray-300 rounded overflow-hidden">
-              <h2 className="font-bold p-4 bg-gray-100 border-b">
+            <div className="border border-gray-300 dark:border-gray-700 rounded overflow-hidden">
+              <h2 className="font-bold p-4 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 dark:text-gray-200">
                 Process Steps:
               </h2>
 
               {result.steps.map((step, index) => (
-                <div key={index} className="p-4 border-b last:border-b-0">
-                  <h3 className="font-semibold mb-2">{step.description}</h3>
+                <div key={index} className="p-4 border-b dark:border-gray-700 last:border-b-0">
+                  <h3 className="font-semibold mb-2 dark:text-gray-300">{step.description}</h3>
 
                   {step.description === "Create Playfair Square" && (
                     <div className="mb-4">
-                      <div className="mb-2 font-medium">
+                      <div className="mb-2 font-medium dark:text-gray-300">
                         5×5 Playfair Square:
                       </div>
                       <div className="flex justify-center mb-4">
                         <PlayfairGrid grid={step.data.grid} />
                       </div>
-                      <div className="text-sm text-gray-600 mt-2">
+                      <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                         {step.data.explanation}
                       </div>
                     </div>
@@ -380,28 +376,28 @@ const PlayfairCipherUI = () => {
                     <div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <div className="font-medium mb-1">Original Text:</div>
-                          <div className="p-2 bg-gray-50 rounded font-mono">
+                          <div className="font-medium mb-1 dark:text-gray-300">Original Text:</div>
+                          <div className="p-2 bg-gray-50 dark:bg-gray-800/50 rounded font-mono dark:text-gray-400">
                             {step.data.original}
                           </div>
                         </div>
                         <div>
-                          <div className="font-medium mb-1">
+                          <div className="font-medium mb-1 dark:text-gray-300">
                             Processed Text:
                           </div>
-                          <div className="p-2 bg-gray-50 rounded font-mono">
+                          <div className="p-2 bg-gray-50 dark:bg-gray-800/50 rounded font-mono dark:text-gray-400">
                             {step.data.processed}
                           </div>
                         </div>
                       </div>
 
                       <div className="mb-4">
-                        <div className="font-medium mb-1">Digraphs:</div>
+                        <div className="font-medium mb-1 dark:text-gray-300">Digraphs:</div>
                         <div className="flex flex-wrap gap-2">
                           {step.data.digraphs.map((digraph, i) => (
                             <div
                               key={i}
-                              className="px-3 py-1 bg-blue-100 rounded font-mono"
+                              className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 rounded font-mono"
                             >
                               {digraph.join("")}
                             </div>
@@ -410,10 +406,10 @@ const PlayfairCipherUI = () => {
                       </div>
 
                       <div>
-                        <div className="font-medium mb-1">
+                        <div className="font-medium mb-1 dark:text-gray-300">
                           Processing Rules:
                         </div>
-                        <ul className="list-disc pl-5 text-sm text-gray-600">
+                        <ul className="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400">
                           {step.data.rules.map((rule, i) => (
                             <li key={i}>{rule}</li>
                           ))}
@@ -423,49 +419,49 @@ const PlayfairCipherUI = () => {
                   )}
 
                   {step.description === "Prepare Ciphertext" && (
-                    <div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                          <div className="font-medium mb-1">Original Text:</div>
-                          <div className="p-2 bg-gray-50 rounded font-mono">
-                            {step.data.original}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="font-medium mb-1">
-                            Processed Text:
-                          </div>
-                          <div className="p-2 bg-gray-50 rounded font-mono">
-                            {step.data.processed}
-                          </div>
-                        </div>
-                      </div>
+                     <div>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                         <div>
+                           <div className="font-medium mb-1 dark:text-gray-300">Original Text:</div>
+                           <div className="p-2 bg-gray-50 dark:bg-gray-800/50 rounded font-mono dark:text-gray-400">
+                             {step.data.original}
+                           </div>
+                         </div>
+                         <div>
+                           <div className="font-medium mb-1 dark:text-gray-300">
+                             Processed Text:
+                           </div>
+                           <div className="p-2 bg-gray-50 dark:bg-gray-800/50 rounded font-mono dark:text-gray-400">
+                             {step.data.processed}
+                           </div>
+                         </div>
+                       </div>
 
-                      <div className="mb-4">
-                        <div className="font-medium mb-1">Digraphs:</div>
-                        <div className="flex flex-wrap gap-2">
-                          {step.data.digraphs.map((digraph, i) => (
-                            <div
-                              key={i}
-                              className="px-3 py-1 bg-blue-100 rounded font-mono"
-                            >
-                              {digraph.join("")}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                       <div className="mb-4">
+                         <div className="font-medium mb-1 dark:text-gray-300">Digraphs:</div>
+                         <div className="flex flex-wrap gap-2">
+                           {step.data.digraphs.map((digraph, i) => (
+                             <div
+                               key={i}
+                               className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 rounded font-mono"
+                             >
+                               {digraph.join("")}
+                             </div>
+                           ))}
+                         </div>
+                       </div>
 
-                      <div>
-                        <div className="font-medium mb-1">
-                          Processing Rules:
-                        </div>
-                        <ul className="list-disc pl-5 text-sm text-gray-600">
-                          {step.data.rules.map((rule, i) => (
-                            <li key={i}>{rule}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
+                       <div>
+                         <div className="font-medium mb-1 dark:text-gray-300">
+                           Processing Rules:
+                         </div>
+                         <ul className="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400">
+                           {step.data.rules.map((rule, i) => (
+                             <li key={i}>{rule}</li>
+                           ))}
+                         </ul>
+                       </div>
+                     </div>
                   )}
 
                   {(step.description === "Encrypt Digraphs" ||
@@ -482,21 +478,21 @@ const PlayfairCipherUI = () => {
                           return (
                             <div
                               key={i}
-                              className="mb-6 p-4 border border-gray-200 rounded"
+                              className="mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded"
                             >
-                              <div className="font-medium mb-2">
+                              <div className="font-medium mb-2 dark:text-gray-300">
                                 Digraph {i + 1}: {firstChar}
                                 {secondChar} → {resultChars[0]}
                                 {resultChars[1]}
                               </div>
 
-                              <div className="mb-2 text-sm font-medium">
+                              <div className="mb-2 text-sm font-medium dark:text-gray-400">
                                 Rule: {detail.rule}
                               </div>
 
                               <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
                                 <div className="text-center">
-                                  <div className="mb-1 text-sm font-medium">
+                                  <div className="mb-1 text-sm font-medium dark:text-gray-300">
                                     Positions in the grid:
                                   </div>
                                   <PlayfairGrid
@@ -504,12 +500,12 @@ const PlayfairCipherUI = () => {
                                     highlights={detail.originalPositions}
                                   />
                                   <div className="mt-1 text-xs">
-                                    <span className="px-2 py-1 mr-2 bg-blue-200">
+                                    <span className="px-2 py-1 mr-2 bg-blue-200 dark:bg-blue-500/30 text-blue-800 dark:text-blue-300 rounded-sm">
                                       {firstChar} at (
                                       {detail.originalPositions[0].row},
                                       {detail.originalPositions[0].col})
                                     </span>
-                                    <span className="px-2 py-1 bg-green-200">
+                                    <span className="px-2 py-1 bg-green-200 dark:bg-green-500/30 text-green-800 dark:text-green-300 rounded-sm">
                                       {secondChar} at (
                                       {detail.originalPositions[1].row},
                                       {detail.originalPositions[1].col})
@@ -517,28 +513,28 @@ const PlayfairCipherUI = () => {
                                   </div>
                                 </div>
 
-                                <div className="text-4xl">→</div>
+                                <div className="text-4xl dark:text-gray-500">→</div>
 
                                 <div className="text-center">
-                                  <div className="text-sm font-medium mb-1">
+                                  <div className="text-sm font-medium mb-1 dark:text-gray-300">
                                     Character transformation:
                                   </div>
                                   <div className="grid grid-cols-2 gap-4 text-center">
                                     <div>
-                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-blue-100 rounded-full font-mono text-2xl">
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-blue-100 dark:bg-blue-500/20 rounded-full font-mono text-2xl dark:text-blue-300">
                                         {firstChar}
                                       </div>
-                                      <div className="text-xl mt-2">↓</div>
-                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-blue-300 rounded-full font-mono text-2xl">
+                                      <div className="text-xl mt-2 dark:text-gray-500">↓</div>
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-blue-300 dark:bg-blue-500/40 rounded-full font-mono text-2xl dark:text-blue-200">
                                         {resultChars[0]}
                                       </div>
                                     </div>
                                     <div>
-                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-green-100 rounded-full font-mono text-2xl">
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-green-100 dark:bg-green-500/20 rounded-full font-mono text-2xl dark:text-green-300">
                                         {secondChar}
                                       </div>
-                                      <div className="text-xl mt-2">↓</div>
-                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-green-300 rounded-full font-mono text-2xl">
+                                      <div className="text-xl mt-2 dark:text-gray-500">↓</div>
+                                      <div className="w-16 h-16 mx-auto flex items-center justify-center bg-green-300 dark:bg-green-500/40 rounded-full font-mono text-2xl dark:text-green-200">
                                         {resultChars[1]}
                                       </div>
                                     </div>
@@ -552,7 +548,7 @@ const PlayfairCipherUI = () => {
                     )}
 
                   {step.description === "Final Result" && (
-                    <div className="p-2 bg-gray-50 rounded font-mono text-lg tracking-wider">
+                    <div className="p-2 bg-gray-50 dark:bg-gray-800/50 rounded font-mono text-lg tracking-wider dark:text-gray-300">
                       {step.data}
                     </div>
                   )}
@@ -562,7 +558,7 @@ const PlayfairCipherUI = () => {
           </div>
         )}
 
-        <div className="text-xs text-gray-500 mt-6">
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-6">
           <p className="font-medium mb-1">About Playfair Cipher:</p>
           <ul className="list-disc pl-5">
             <li>
