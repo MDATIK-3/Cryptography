@@ -142,13 +142,13 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <ContactHeader />
       <main className="max-w-6xl mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           <PersonalDetails />
-          <div className="bg-white rounded-xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
               Send Me a Message
             </h2>
 
@@ -160,7 +160,7 @@ export default function ContactPage() {
                   <div>
                     <label
                       htmlFor="name"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                     >
                       Full Name <span className="text-red-500">*</span>
                     </label>
@@ -174,13 +174,13 @@ export default function ContactPage() {
                       required
                       className={`w-full px-4 py-3 border ${
                         getFieldError("name")
-                          ? "border-red-300 bg-red-50"
-                          : "border-gray-300"
-                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200`}
+                          ? "border-red-300 bg-red-50 dark:bg-red-900"
+                          : "border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200 text-gray-900 dark:text-gray-100`}
                       placeholder="Your name"
                     />
                     {getFieldError("name") && (
-                      <p className="mt-1 text-sm text-red-600">
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                         {getFieldError("name")}
                       </p>
                     )}
@@ -189,7 +189,7 @@ export default function ContactPage() {
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                     >
                       Email Address <span className="text-red-500">*</span>
                     </label>
@@ -203,13 +203,13 @@ export default function ContactPage() {
                       required
                       className={`w-full px-4 py-3 border ${
                         getFieldError("email")
-                          ? "border-red-300 bg-red-50"
-                          : "border-gray-300"
-                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200`}
+                          ? "border-red-300 bg-red-50 dark:bg-red-900"
+                          : "border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200 text-gray-900 dark:text-gray-100`}
                       placeholder="your@email.com"
                     />
                     {getFieldError("email") && (
-                      <p className="mt-1 text-sm text-red-600">
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                         {getFieldError("email")}
                       </p>
                     )}
@@ -218,7 +218,7 @@ export default function ContactPage() {
                   <div>
                     <label
                       htmlFor="subject"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                     >
                       Subject <span className="text-red-500">*</span>
                     </label>
@@ -232,13 +232,13 @@ export default function ContactPage() {
                       required
                       className={`w-full px-4 py-3 border ${
                         getFieldError("subject")
-                          ? "border-red-300 bg-red-50"
-                          : "border-gray-300"
-                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200`}
+                          ? "border-red-300 bg-red-50 dark:bg-red-900"
+                          : "border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200 text-gray-900 dark:text-gray-100`}
                       placeholder="What is this regarding?"
                     />
                     {getFieldError("subject") && (
-                      <p className="mt-1 text-sm text-red-600">
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                         {getFieldError("subject")}
                       </p>
                     )}
@@ -247,7 +247,7 @@ export default function ContactPage() {
                   <div>
                     <label
                       htmlFor="message"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                     >
                       Message <span className="text-red-500">*</span>
                     </label>
@@ -261,20 +261,20 @@ export default function ContactPage() {
                       rows={6}
                       className={`w-full px-4 py-3 border ${
                         getFieldError("message")
-                          ? "border-red-300 bg-red-50"
-                          : "border-gray-300"
-                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200`}
+                          ? "border-red-300 bg-red-50 dark:bg-red-900"
+                          : "border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                      } rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors duration-200 text-gray-900 dark:text-gray-100`}
                       placeholder="Your message here..."
                     />
                     {getFieldError("message") && (
-                      <p className="mt-1 text-sm text-red-600">
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                         {getFieldError("message")}
                       </p>
                     )}
                   </div>
 
                   {errorMessage && (
-                    <div className="text-red-500 text-sm bg-red-50 p-4 rounded-lg border border-red-100">
+                    <div className="text-red-500 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900 p-4 rounded-lg border border-red-100 dark:border-red-700">
                       <p className="font-medium mb-1">Error</p>
                       <p>{errorMessage}</p>
                     </div>

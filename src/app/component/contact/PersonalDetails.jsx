@@ -2,7 +2,7 @@ import { Linkedin, Github, Facebook, Mail, MapPin, Phone } from "lucide-react";
 
 function PersonalDetails() {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
       <div className="flex flex-col items-center mb-8">
         <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-cyan-500 shadow-lg mb-4">
           <img
@@ -11,38 +11,38 @@ function PersonalDetails() {
             className="w-full h-full object-cover"
           />
         </div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
           Md Atik Hasan
         </h2>
-        <p className="text-cyan-600 font-medium">Full Stack Developer</p>
+        <p className="text-cyan-600 dark:text-cyan-400 font-medium">Full Stack Developer</p>
       </div>
 
-      <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
         Contact Information
       </h3>
 
       <div className="space-y-6">
         <div className="flex items-start group">
-          <div className="bg-cyan-50 p-2 rounded-lg text-cyan-500 group-hover:text-cyan-600 group-hover:bg-cyan-100 transition-colors duration-300 mr-4">
+          <div className="bg-cyan-50 dark:bg-gray-700 p-2 rounded-lg text-cyan-500 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 group-hover:bg-cyan-100 dark:group-hover:bg-gray-600 transition-colors duration-300 mr-4">
             <MapPin size={20} />
           </div>
           <div>
-            <h3 className="font-medium text-gray-900">Location</h3>
-            <p className="text-gray-600 mt-1">
+            <h3 className="font-medium text-gray-900 dark:text-gray-100">Location</h3>
+            <p className="text-gray-600 dark:text-gray-300 mt-1">
               Narayanganj Sadar, Dhaka, Bangladesh
             </p>
           </div>
         </div>
 
         <div className="flex items-start group">
-          <div className="bg-cyan-50 p-2 rounded-lg text-cyan-500 group-hover:text-cyan-600 group-hover:bg-cyan-100 transition-colors duration-300 mr-4">
+          <div className="bg-cyan-50 dark:bg-gray-700 p-2 rounded-lg text-cyan-500 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 group-hover:bg-cyan-100 dark:group-hover:bg-gray-600 transition-colors duration-300 mr-4">
             <Mail size={20} />
           </div>
           <div>
-            <h3 className="font-medium text-gray-900">Email</h3>
+            <h3 className="font-medium text-gray-900 dark:text-gray-100">Email</h3>
             <a
               href="mailto:atikh335@gmail.com"
-              className="text-gray-600 hover:text-cyan-600 transition mt-1 inline-block"
+              className="text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition mt-1 inline-block"
             >
               atikh335@gmail.com
             </a>
@@ -50,14 +50,14 @@ function PersonalDetails() {
         </div>
 
         <div className="flex items-start group">
-          <div className="bg-cyan-50 p-2 rounded-lg text-cyan-500 group-hover:text-cyan-600 group-hover:bg-cyan-100 transition-colors duration-300 mr-4">
+          <div className="bg-cyan-50 dark:bg-gray-700 p-2 rounded-lg text-cyan-500 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 group-hover:bg-cyan-100 dark:group-hover:bg-gray-600 transition-colors duration-300 mr-4">
             <Phone size={20} />
           </div>
           <div>
-            <h3 className="font-medium text-gray-900">Phone</h3>
+            <h3 className="font-medium text-gray-900 dark:text-gray-100">Phone</h3>
             <a
               href="tel:8801840069805"
-              className="text-gray-600 hover:text-cyan-600 transition mt-1 inline-block"
+              className="text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition mt-1 inline-block"
             >
               +880 184006 9805
             </a>
@@ -65,9 +65,9 @@ function PersonalDetails() {
         </div>
       </div>
 
-      <hr className="my-8 border-gray-200" />
+      <hr className="my-8 border-gray-200 dark:border-gray-700" />
 
-      <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
         Connect With Me
       </h3>
 
@@ -103,11 +103,11 @@ function PersonalDetails() {
         </a>
       </div>
 
-      <div className="mt-8 bg-cyan-50 p-4 rounded-lg border border-cyan-100">
-        <h4 className="font-medium text-cyan-800 mb-2">
+      <div className="mt-8 bg-cyan-50 dark:bg-gray-700 p-4 rounded-lg border border-cyan-100 dark:border-gray-600">
+        <h4 className="font-medium text-cyan-800 dark:text-cyan-400 mb-2">
           Available for Projects
         </h4>
-        <p className="text-cyan-700 text-sm">
+        <p className="text-cyan-700 dark:text-gray-300 text-sm">
           Currently open to freelance opportunities and collaborations. Let's
           build something amazing together!
         </p>
